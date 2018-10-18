@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="ACHDelicacyTableVCCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="249.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="14v-gc-53L">
+                        <rect key="frame" x="15" y="15" width="290" height="164.5"/>
+                        <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Xo-7m-cY5">
+                        <rect key="frame" x="15" y="189.5" width="290" height="50"/>
+                        <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="YO0-hZ-eqO"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="7Xo-7m-cY5" secondAttribute="trailing" constant="15" id="EaG-RR-MQA"/>
+                    <constraint firstItem="7Xo-7m-cY5" firstAttribute="top" secondItem="14v-gc-53L" secondAttribute="bottom" constant="10" id="JBp-kA-njh"/>
+                    <constraint firstAttribute="bottom" secondItem="7Xo-7m-cY5" secondAttribute="bottom" constant="10" id="a01-mT-fGs"/>
+                    <constraint firstItem="14v-gc-53L" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="fBU-FD-OXe"/>
+                    <constraint firstItem="7Xo-7m-cY5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="lzo-VT-dI2"/>
+                    <constraint firstItem="14v-gc-53L" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="u1p-pP-xet"/>
+                    <constraint firstAttribute="trailing" secondItem="14v-gc-53L" secondAttribute="trailing" constant="15" id="vvX-Il-2B1"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="detailView" destination="7Xo-7m-cY5" id="aK5-rZ-tPW"/>
+                <outlet property="shopView" destination="14v-gc-53L" id="zek-fD-z93"/>
+            </connections>
+            <point key="canvasLocation" x="-494" y="136"/>
+        </tableViewCell>
+    </objects>
+</document>

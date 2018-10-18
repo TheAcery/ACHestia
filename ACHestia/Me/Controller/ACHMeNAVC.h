@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ACHMeVC.h
 //  ACHestia
 //
 //  Created by Acery on 2018/10/14.
@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ACHNAVC.h"
 
-@interface ViewController : UIViewController
+NS_ASSUME_NONNULL_BEGIN
 
+@interface ACHMeNAVC : ACHNAVC
 
 @end
 
+NS_ASSUME_NONNULL_END

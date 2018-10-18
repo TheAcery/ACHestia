@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vLg-nG-5D0">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--WelcomVC-->
+        <scene sceneID="8lJ-F8-u1g">
+            <objects>
+                <viewController id="vLg-nG-5D0" customClass="ACHWelcomVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tnA-ZE-F2V">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f3R-hW-hck" customClass="ACHButton">
+                                <rect key="frame" x="0.0" y="20" width="375" height="557"/>
+                                <state key="normal" backgroundImage="share_logo_default"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfY-3Y-I1d" customClass="ACHButton">
+                                <rect key="frame" x="305" y="40" width="50" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="35W-z3-vgU"/>
+                                    <constraint firstAttribute="height" constant="20" id="kHL-E7-NJw"/>
+                                </constraints>
+                                <state key="normal" title="跳过3" backgroundImage="point_normal"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_lunch" translatesAutoresizingMaskIntoConstraints="NO" id="fXK-6H-Mbz">
+                                <rect key="frame" x="127" y="606" width="121" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="121" id="PbT-vr-14B"/>
+                                    <constraint firstAttribute="height" constant="41" id="Pwm-xw-XUC"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="f3R-hW-hck" firstAttribute="leading" secondItem="bW2-jq-CHE" secondAttribute="leading" id="7VE-ad-NyD"/>
+                            <constraint firstItem="hfY-3Y-I1d" firstAttribute="top" secondItem="bW2-jq-CHE" secondAttribute="top" constant="20" id="Dh4-pF-5tJ"/>
+                            <constraint firstItem="fXK-6H-Mbz" firstAttribute="centerX" secondItem="tnA-ZE-F2V" secondAttribute="centerX" id="HNx-28-OdS"/>
+                            <constraint firstItem="bW2-jq-CHE" firstAttribute="bottom" secondItem="fXK-6H-Mbz" secondAttribute="bottom" constant="20" id="V46-vL-gjO"/>
+                            <constraint firstItem="bW2-jq-CHE" firstAttribute="trailing" secondItem="f3R-hW-hck" secondAttribute="trailing" id="ZZO-iM-AzT"/>
+                            <constraint firstItem="bW2-jq-CHE" firstAttribute="bottom" secondItem="f3R-hW-hck" secondAttribute="bottom" constant="90" id="bql-ns-cZ7"/>
+                            <constraint firstItem="f3R-hW-hck" firstAttribute="top" secondItem="bW2-jq-CHE" secondAttribute="top" id="iOx-ru-cfI"/>
+                            <constraint firstItem="bW2-jq-CHE" firstAttribute="trailing" secondItem="hfY-3Y-I1d" secondAttribute="trailing" constant="20" id="wrg-5O-ptn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bW2-jq-CHE"/>
+                    </view>
+                    <connections>
+                        <outlet property="jumpButton" destination="hfY-3Y-I1d" id="Phm-oP-Rou"/>
+                        <outlet property="jumpToWedButton" destination="f3R-hW-hck" id="ubj-if-QE8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZUe-3b-3SM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="208.80000000000001" y="86.806596701649184"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="logo_lunch" width="132" height="41"/>
+        <image name="point_normal" width="8" height="4"/>
+        <image name="share_logo_default" width="430" height="336"/>
+    </resources>
+</document>

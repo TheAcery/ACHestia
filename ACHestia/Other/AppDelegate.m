@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 
+/////////////////////////////VC
+#import "ACHWelcomVC.h"
+
 @interface AppDelegate ()
 
 @end
@@ -16,7 +19,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc]initWithFrame:SCRENNBOUNDS];
+    
+    ACHWelcomVC *welcomeVC = [ACHWelcomVC welcomeVC];
+    self.window.rootViewController = welcomeVC;
+    
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
