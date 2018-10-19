@@ -18,6 +18,8 @@
 {
     
     [self.navigationBar setBackgroundImage:[UIImage imageWithUIColor:UIColor.whiteColor] forBarMetrics:UIBarMetricsDefault];
+    
+//    [self.navigationBar setBarTintColor:UIColor.whiteColor];
     [self.navigationBar setShadowImage:[UIImage alloc]];
     
     self.tabBarItem.title = title;

@@ -56,8 +56,6 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-
-    NSLog(@"width ---- %f",self.bigScrollView.ACwidth);
     /**设置bigScrollView*/
     [self setUpBigScrollerViewAndScroll];
     /**设置smallScrollView*/
@@ -196,6 +194,7 @@
 {
     //停止定时器
     [self.timer invalidate];
+    NSLog(@"stop");
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -209,12 +208,13 @@
     if (![scrollView isDragging])
     {
         [self initBigScrollViewTimer];
+        NSLog(@"start");
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    NSLog(@"bounds ---- %@",NSStringFromCGRect(self.bigScrollView.bounds));
+
 }
 
 @end

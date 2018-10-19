@@ -15,6 +15,9 @@
 #import "ACHFirstHeadView.h"
 #import "ACHFirstViewTableViewCell.h"
 
+//controller
+#import "ACHFirstViewController.h"
+
 #define FASTVIEWHIGHT 300.0
 
 @interface ACHFirstViewTableVC () <UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -143,8 +146,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIViewController *vc = [[UIViewController alloc]init];
-    vc.view.backgroundColor = UIColor.redColor;
+    ACHFirstViewController *vc = [[ACHFirstViewController alloc]init];
+    vc.view.backgroundColor = UIColor.yellowColor;
     
     self.navigationController.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
@@ -162,7 +165,7 @@
     CGFloat alpha = 1 - (scrollView.contentOffset.y/ (-20));
 
     self.headView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:alpha];
-    //e设置 sectionHeadView 的阴影
+    //设置 sectionHeadView 的阴影
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -175,11 +178,6 @@
                                                          fromViewController:(UIViewController *)fromVC
                                                            toViewController:(UIViewController *)toVC
 {
-    if (operation == UINavigationControllerOperationPop)
-    {
-        return self.Animtor;
-    }
-    
-    return nil;
+    return self.Animtor;
 }
 @end

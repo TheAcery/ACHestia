@@ -12,23 +12,23 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ACHDelicacyTableSectionHeaderView">
             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="KF0-7k-fZw">
-                    <rect key="frame" x="10" y="5" width="355" height="35"/>
+                    <rect key="frame" x="30" y="5" width="315" height="35"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZKD-wf-nkG">
-                            <rect key="frame" x="0.0" y="0.0" width="85" height="35"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZKD-wf-nkG" customClass="ACHButton">
+                            <rect key="frame" x="0.0" y="0.0" width="71.5" height="35"/>
                             <state key="normal" backgroundImage="ORIimage"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G1O-rj-cKT">
-                            <rect key="frame" x="135" y="0.0" width="85" height="35"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G1O-rj-cKT" customClass="ACHButton">
+                            <rect key="frame" x="121.5" y="0.0" width="72" height="35"/>
                             <state key="normal" backgroundImage="ORIimage"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="giU-Zl-zDN">
-                            <rect key="frame" x="270" y="0.0" width="85" height="35"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="giU-Zl-zDN" customClass="ACHButton">
+                            <rect key="frame" x="243.5" y="0.0" width="71.5" height="35"/>
                             <state key="normal" backgroundImage="ORIimage"/>
                         </button>
                     </subviews>
@@ -46,15 +46,21 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="BbM-0V-CcX" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ACj-70-V3m"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KF0-7k-fZw" secondAttribute="trailing" constant="10" id="BKc-F2-8Pq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KF0-7k-fZw" secondAttribute="trailing" constant="30" id="BKc-F2-8Pq"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="BbM-0V-CcX" secondAttribute="bottom" id="WGQ-vR-s4v"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="BbM-0V-CcX" secondAttribute="trailing" id="XXx-y8-gCE"/>
                 <constraint firstItem="KF0-7k-fZw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" id="oG3-V6-wQ7"/>
-                <constraint firstItem="KF0-7k-fZw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="sWd-DA-RUh"/>
+                <constraint firstItem="KF0-7k-fZw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="sWd-DA-RUh"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <point key="canvasLocation" x="132" y="154.72263868065968"/>
+            <connections>
+                <outlet property="oneButton" destination="ZKD-wf-nkG" id="tkc-hn-tJq"/>
+                <outlet property="scrollView" destination="BbM-0V-CcX" id="KcU-x5-yz2"/>
+                <outlet property="threeButton" destination="giU-Zl-zDN" id="53L-Eb-ePs"/>
+                <outlet property="twoButton" destination="G1O-rj-cKT" id="4Y9-G1-SFc"/>
+            </connections>
+            <point key="canvasLocation" x="654" y="-39"/>
         </view>
     </objects>
     <resources>

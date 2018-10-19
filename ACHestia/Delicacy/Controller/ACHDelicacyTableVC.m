@@ -10,7 +10,7 @@
 
 //view
 #import "ACHDelicacyTableVCCell.h"
-#import "ACHTableSectionHeaderView.h"
+#import "ACHDelicacyTableSectionHeaderView.h"
 
 
 //item
@@ -55,7 +55,7 @@
         tableSectionHeaderView.alpha = 0.0;
         [self.view addSubview:tableSectionHeaderView];
         
-        ACHTableSectionHeaderView *headView = [ACHTableSectionHeaderView tableSectionHeaderView];
+        ACHDelicacyTableSectionHeaderView *headView = [ACHDelicacyTableSectionHeaderView tableSectionHeaderView];
         headView.frame = tableSectionHeaderView.bounds;
         
         [tableSectionHeaderView addSubview:headView];
@@ -111,9 +111,9 @@
 {
     [super viewDidAppear:animated];
     
-    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y;
-    HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y;
-    HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y;
+    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y ;
+    HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y ;
+    HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y ;
     
 }
 
@@ -220,7 +220,7 @@
     if (section == 0)
     {
 
-        return [ACHTableSectionHeaderView tableSectionHeaderView];
+        return [ACHDelicacyTableSectionHeaderView tableSectionHeaderView];
     }
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 20)];
@@ -253,7 +253,6 @@
 {
     //让第一组的header一只保持，同时划过第二组的时候更新header，并非替换
     //创建自己的view代替header ----> 在划到第一组的时候显示header,把这个header放入tableviewheader
-    NSLog(@"dispaly");
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section

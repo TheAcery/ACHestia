@@ -188,10 +188,7 @@
     self.contentViewTwo.ACx = 0;
     self.contentViewThree.ACx = self.bounds.size.width * 1;
 
-    //计算下一个contentView该呈现那个view
-//    NSLog(@"bounds ---- %f",boundsX);
-    
-//    self.pageUpCount
+
     
 }
 
