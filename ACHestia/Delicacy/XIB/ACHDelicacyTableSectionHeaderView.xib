@@ -36,27 +36,29 @@
                         <constraint firstAttribute="height" constant="35" id="AOr-2X-ggv"/>
                     </constraints>
                 </stackView>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbM-0V-CcX">
-                    <rect key="frame" x="0.0" y="55" width="375" height="5"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eRL-yj-9tF">
+                    <rect key="frame" x="30" y="55" width="315" height="5"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="5" id="zhX-KZ-d4s"/>
+                        <constraint firstAttribute="height" constant="5" id="FgU-1d-iAJ"/>
                     </constraints>
-                </scrollView>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="BbM-0V-CcX" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ACj-70-V3m"/>
+                <constraint firstItem="eRL-yj-9tF" firstAttribute="width" secondItem="KF0-7k-fZw" secondAttribute="width" id="3ZC-jF-tCz"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KF0-7k-fZw" secondAttribute="trailing" constant="30" id="BKc-F2-8Pq"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="BbM-0V-CcX" secondAttribute="bottom" id="WGQ-vR-s4v"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="BbM-0V-CcX" secondAttribute="trailing" id="XXx-y8-gCE"/>
+                <constraint firstItem="eRL-yj-9tF" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Sf1-1G-drA"/>
                 <constraint firstItem="KF0-7k-fZw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="oG3-V6-wQ7"/>
                 <constraint firstItem="KF0-7k-fZw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="sWd-DA-RUh"/>
+                <constraint firstItem="eRL-yj-9tF" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="wns-Jj-K17"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="oneButton" destination="ZKD-wf-nkG" id="tkc-hn-tJq"/>
-                <outlet property="scrollView" destination="BbM-0V-CcX" id="KcU-x5-yz2"/>
+                <outlet property="scrollIndexView" destination="eRL-yj-9tF" id="1cY-9b-12z"/>
+                <outlet property="stackView" destination="KF0-7k-fZw" id="mOz-Zf-G0Q"/>
                 <outlet property="threeButton" destination="giU-Zl-zDN" id="53L-Eb-ePs"/>
                 <outlet property="twoButton" destination="G1O-rj-cKT" id="4Y9-G1-SFc"/>
             </connections>

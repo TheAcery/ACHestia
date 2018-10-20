@@ -20,7 +20,7 @@
 
 #define FASTVIEWHIGHT 300.0
 
-@interface ACHFirstViewTableVC () <UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ACHFirstViewTableVC () <UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) ACHFirstViewTranslationAnimtor *Animtor;
 
@@ -105,8 +105,7 @@
     [super viewDidAppear:animated];
     
     self.navigationController.navigationBar.alpha = 0.0;
-   
-    self.navigationController.delegate = nil;
+
 }
 
 #pragma mark - Table view data source
@@ -151,8 +150,6 @@
 {
     ACHFirstViewController *vc = [[ACHFirstViewController alloc]init];
     vc.view.backgroundColor = UIColor.yellowColor;
-    
-    self.navigationController.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
     
 }
@@ -170,21 +167,5 @@
     //设置 sectionHeadView 的阴影
 }
 
-#pragma mark - UINavigationControllerDelegate
-/****************************************************************************************************************/
 
-
-//设置转场动画
-- (nullable id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                            animationControllerForOperation:(UINavigationControllerOperation)operation
-                                                         fromViewController:(UIViewController *)fromVC
-                                                           toViewController:(UIViewController *)toVC
-{
-    
-//    if (operation == UINavigationControllerOperationPop)
-//    {
-//        return self.Animtor;
-//    }
-    return nil;
-}
 @end

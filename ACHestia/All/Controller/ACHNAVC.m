@@ -16,10 +16,6 @@
 
 -(void)setUpNAVCWithTitle:(NSString *)title ImageName:(NSString *)imageName SelectedImage:(NSString *)selectedImage
 {
-    [self.navigationBar setShadowImage:[UIImage alloc]];
-    
-    [self setBarBKColor:UIColor.whiteColor];
-    
     self.tabBarItem.title = title;
     
     NSDictionary *normalAttributedDict = @{NSForegroundColorAttributeName:UIColor.blackColor};
@@ -57,7 +53,18 @@
             }
         }
         
+        
     }
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self.navigationBar setShadowImage:[UIImage alloc]];
+    
+    [self setBarBKColor:UIColor.whiteColor];
 }
 
 @end

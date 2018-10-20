@@ -43,6 +43,7 @@
     if (self)
     {
         self = [[NSBundle mainBundle]loadNibNamed:@"ACHFirstViewNAVCBar" owner:nil options:nil].firstObject;
+        [self setShadowImage:[[UIImage alloc]init]];
     }
     return self;
 }

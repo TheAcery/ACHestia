@@ -22,6 +22,14 @@
     
     [self addChildViewController:firstViewTableVC];
     
+    
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
 }
 
 - (instancetype)init
@@ -37,7 +45,7 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
 
-    viewController.navigationController.navigationBar.alpha = 0.0;
+//    viewController.navigationController.navigationBar.alpha = 0.0;
     if (self.childViewControllers.count != 0)
     {
         viewController.hidesBottomBarWhenPushed = YES;

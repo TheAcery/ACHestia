@@ -21,11 +21,11 @@
 
 #define TableViewHeaderHeight 60
 
-@interface ACHDelicacyTableVC () <UITableViewDelegate,UITableViewDataSource>
+@interface ACHDelicacyTableVC () <UITableViewDelegate,UITableViewDataSource,ACHDelicacyTableSectionHeaderViewDelegate>
 
 @property (nonatomic, strong) NSArray<NSArray *> *group;
 
-@property (nonatomic, weak) UIView *tableSectionHeaderView;
+@property (nonatomic, weak) ACHDelicacyTableSectionHeaderView *tableSectionHeaderView;
 
 @property (nonatomic, weak) UIView *tableHeaderView;
 
@@ -48,20 +48,21 @@
 /****************************************************************************************************************/
 
 //初始化组头视图
-- (UIView *)tableSectionHeaderView
+- (ACHDelicacyTableSectionHeaderView *)tableSectionHeaderView
 {
     if (_tableSectionHeaderView == nil)
     {
-        UIView *tableSectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCRENNBOUNDS.size.width, TableViewHeaderHeight)];
-//        tableSectionHeaderView.alpha = 0.0;
-        [self.view addSubview:tableSectionHeaderView];
+        //创建tableSectionHeaderView的占位视图
+        UIView *tableSectioncontainerView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCRENNBOUNDS.size.width, TableViewHeaderHeight)];
+        [self.view addSubview:tableSectioncontainerView];
         
+        //创建tableSectionHeaderView
         ACHDelicacyTableSectionHeaderView *headView = [ACHDelicacyTableSectionHeaderView tableSectionHeaderView];
-        headView.frame = tableSectionHeaderView.bounds;
+        headView.delegate = self;
+        headView.frame = tableSectioncontainerView.bounds;
+        [tableSectioncontainerView addSubview:headView];
         
-        [tableSectionHeaderView addSubview:headView];
-        
-        _tableSectionHeaderView = tableSectionHeaderView;
+        _tableSectionHeaderView = headView;
     }
     
     return _tableSectionHeaderView;
@@ -89,7 +90,6 @@
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.rowHeight = 250;
-        tableView.backgroundColor = UIColor.blackColor;
         [self.view addSubview:tableView];
         _tableView = tableView;
     }
@@ -113,9 +113,9 @@
     [super viewDidAppear:animated];
     
     //计算每个header的rect
-    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y -64;
-    HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y - 64 ;
-    HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y - 64 ;
+    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y - 64;
+    HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y - 64 - TableViewHeaderHeight;
+    HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y - 64 - TableViewHeaderHeight;
     
 }
 
@@ -220,6 +220,7 @@
     if (section == 0)
     {
         ACHDelicacyTableSectionHeaderView *sectionHeaderView = [ACHDelicacyTableSectionHeaderView tableSectionHeaderView];
+        sectionHeaderView.delegate = self;
         sectionHeaderView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, 50);
 
         return sectionHeaderView;
@@ -228,7 +229,7 @@
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 20)];
     view.backgroundColor = UIColor.yellowColor;
     
-    return [[UIView alloc]init];
+    return view;
 }
 
 
@@ -272,16 +273,32 @@
         
         if (scrollView.contentOffset.y >= HeaderInSectionOne && scrollView.contentOffset.y < HeaderInSectionTwo)//处于1
         {
-            NSLog(@"1--- y---- %f",scrollView.contentOffset.y);
+            //让SectionHeaderView的scrollSubviewd滚动到1
+            if (self.tableSectionHeaderView.subViewState != ACHDelicacyTableSectionHeaderViewSubViewStateOne && self.tableView.decelerating )
+            {
+                [self.tableSectionHeaderView scrollToOne];
+            }
+            
         }
         
         if (scrollView.contentOffset.y >= HeaderInSectionTwo && scrollView.contentOffset.y < HeaderInSectionThree)//处于2
         {
-            NSLog(@"2--- y---- %f",scrollView.contentOffset.y);
+            //让SectionHeaderView的scrollSubviewd滚动到2
+            
+            if (self.tableSectionHeaderView.subViewState != ACHDelicacyTableSectionHeaderViewSubViewStateTwo && self.tableView.decelerating )
+            {
+                [self.tableSectionHeaderView scrollToTwo];
+            }
         }
        if (scrollView.contentOffset.y >= HeaderInSectionThree)//处于3
         {
-            NSLog(@"3--- y---- %f",scrollView.contentOffset.y);
+            //让SectionHeaderView的scrollSubviewd滚动到3
+            
+            if (self.tableSectionHeaderView.subViewState != ACHDelicacyTableSectionHeaderViewSubViewStateThree && self.tableView.decelerating )
+            {
+                [self.tableSectionHeaderView scrollToThree];
+            }
+            
         }
     }
     else
@@ -297,4 +314,31 @@
     
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
+#pragma mark - ACHDelicacyTableSectionHeaderViewDelegate
+/****************************************************************************************************************/
+
+//滚动到第一组
+-(void)didDelicacyTableSectionHeaderViewOneButtonClip:(ACHButton *)btn
+{
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+//滚动到第二组
+-(void)didDelicacyTableSectionHeaderViewTwoButtonClip:(ACHButton *)btn
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+//滚动到第三组
+-(void)didDelicacyTableSectionHeaderViewThreeButtonClip:(ACHButton *)btn
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
 @end
