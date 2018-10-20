@@ -11,6 +11,7 @@
 //view
 #import "ACHDelicacyTableVCCell.h"
 #import "ACHDelicacyTableSectionHeaderView.h"
+#import "ACHDelicacyTableVCHeadView.h"
 
 
 //item
@@ -18,7 +19,7 @@
 
 //define
 
-#define TableViewHeaderHeight 50
+#define TableViewHeaderHeight 60
 
 @interface ACHDelicacyTableVC () <UITableViewDelegate,UITableViewDataSource>
 
@@ -51,8 +52,8 @@
 {
     if (_tableSectionHeaderView == nil)
     {
-        UIView *tableSectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, TableViewHeaderHeight)];
-        tableSectionHeaderView.alpha = 0.0;
+        UIView *tableSectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCRENNBOUNDS.size.width, TableViewHeaderHeight)];
+//        tableSectionHeaderView.alpha = 0.0;
         [self.view addSubview:tableSectionHeaderView];
         
         ACHDelicacyTableSectionHeaderView *headView = [ACHDelicacyTableSectionHeaderView tableSectionHeaderView];
@@ -71,8 +72,7 @@
 {
     if (_tableHeaderView == nil)
     {
-        UIView *tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 200)];
-        tableHeaderView.backgroundColor = UIColor.yellowColor;
+        ACHDelicacyTableVCHeadView *tableHeaderView = [ACHDelicacyTableVCHeadView delicacyTableVCHeadView];
         [self.tableView setTableHeaderView:tableHeaderView];
         
         _tableHeaderView = tableHeaderView;
@@ -85,10 +85,11 @@
 {
     if (_tableView == nil)
     {
-        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height - 64 - 49) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height - 49) style:UITableViewStylePlain];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.rowHeight = 250;
+        tableView.backgroundColor = UIColor.blackColor;
         [self.view addSubview:tableView];
         _tableView = tableView;
     }
@@ -111,9 +112,10 @@
 {
     [super viewDidAppear:animated];
     
-    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y ;
-    HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y ;
-    HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y ;
+    //计算每个header的rect
+    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y -64;
+    HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y - 64 ;
+    HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y - 64 ;
     
 }
 
@@ -202,8 +204,6 @@
     }
     
     //get item
-    NSArray *items = self.group[indexPath.section];
-    ACHDelicacyTableVCCellItem *item = items[indexPath.row];
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -219,14 +219,16 @@
 {
     if (section == 0)
     {
+        ACHDelicacyTableSectionHeaderView *sectionHeaderView = [ACHDelicacyTableSectionHeaderView tableSectionHeaderView];
+        sectionHeaderView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, 50);
 
-        return [ACHDelicacyTableSectionHeaderView tableSectionHeaderView];
+        return sectionHeaderView;
     }
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 20)];
     view.backgroundColor = UIColor.yellowColor;
     
-    return view;
+    return [[UIView alloc]init];
 }
 
 
@@ -263,8 +265,6 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
-#warning TODO 怎样确定滚动到每个header
 
     if (scrollView.contentOffset.y >= HeaderInSectionOne)
     {
@@ -272,16 +272,16 @@
         
         if (scrollView.contentOffset.y >= HeaderInSectionOne && scrollView.contentOffset.y < HeaderInSectionTwo)//处于1
         {
-            
+            NSLog(@"1--- y---- %f",scrollView.contentOffset.y);
         }
         
         if (scrollView.contentOffset.y >= HeaderInSectionTwo && scrollView.contentOffset.y < HeaderInSectionThree)//处于2
         {
-            
+            NSLog(@"2--- y---- %f",scrollView.contentOffset.y);
         }
        if (scrollView.contentOffset.y >= HeaderInSectionThree)//处于3
         {
-            
+            NSLog(@"3--- y---- %f",scrollView.contentOffset.y);
         }
     }
     else

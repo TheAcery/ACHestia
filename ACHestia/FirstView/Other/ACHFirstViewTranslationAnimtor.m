@@ -4,8 +4,7 @@
 //
 //  Created by Acery on 2018/10/14.
 //  Copyright © 2018年 Acery. All rights reserved.
-//  使用自定义的转场动画取消navcpop时导航栏仍显示的问题 ,描述所有的跳转动画
-//  在移动控制器的视图的同时为控制器视图的导航栏添加随控制器视图平移的动画
+//  废弃
 
 #import "ACHFirstViewTranslationAnimtor.h"
 
@@ -55,24 +54,16 @@
         
         if (fromVCIndex > toVCIndex)
         {
-            
             [self animtorForPOP];
-            
         }
         else
         {
-
-            
             [self animtorForPUSH];
         }
         
     } completion:^(BOOL finished) {
         
-        self.fromVC.navigationController.navigationBar.transform = CGAffineTransformIdentity;
-        self.toVC.navigationController.navigationBar.transform = CGAffineTransformIdentity;
-        self.toView.transform = CGAffineTransformIdentity;
-        self.fromView.transform = CGAffineTransformIdentity;
-        
+        [self endAnimtor];
         BOOL isfinish = [transitionContext transitionWasCancelled];
         [transitionContext completeTransition:!isfinish];
         
@@ -98,8 +89,17 @@
 
 -(void)animtorForPOP
 {
-    self.toView.transform = CGAffineTransformTranslate(self.toView.transform,SCRENNBOUNDS.size.width, 0);
-    self.fromVC.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(SCRENNBOUNDS.size.width, 0);
+    //移动控制器视图
+    self.fromView.transform = CGAffineTransformTranslate(self.fromView.transform,SCRENNBOUNDS.size.width, 0);
+//    self.toVC.navigationController.navigationBar.alpha = 0.0;
+    
+    //移动tabBar
+    
+//    self.fromVC.tabBarController.tabBar.frame = CGRectMake(0, 667 - 49, 375, 49);
+    //移动navigationBar
+    self.fromVC.navigationController.navigationBar.transform = CGAffineTransformTranslate(self.fromVC.navigationController.navigationBar.transform, SCRENNBOUNDS.size.width, 0);
+    
+
 }
 
 
@@ -108,22 +108,50 @@
     self.toView.transform = CGAffineTransformTranslate(self.toView.transform,-SCRENNBOUNDS.size.width,0);
     self.fromView.transform = CGAffineTransformTranslate(self.fromView.transform,-SCRENNBOUNDS.size.width,0);
     self.toVC.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+
+    
 }
 
 
 -(void)prepareAnimtorForPOP
 {
-    [self.containerView addSubview:self.fromView];
+   
     [self.containerView addSubview:self.toView];
-    self.toView.transform = CGAffineTransformTranslate(self.toView.transform,-SCRENNBOUNDS.size.width,- 64);
+    
+//    self.fromView.frame = CGRectMake(0, -667 + 49 + 64, 375, 667);
+//    self.fromView.bounds = CGRectMake(0, 64, 375, 700);
+//    self.fromVC.tabBarController.tabBar.clipsToBounds = NO;
+//    self.fromVC.tabBarController.tabBar.frame = CGRectMake(0, 667 - 49, 375, 49);
+//    [self.fromVC.tabBarController.tabBar addSubview:self.fromView];
+    [self.containerView addSubview:self.fromView];
+//    self.toView.transform = CGAffineTransformTranslate(self.toView.transform,-SCRENNBOUNDS.size.width,0);
+    
+//    self.fromVC.tabBarController.tabBar.hidden = YES;
+
 }
 
 -(void)prepareAnimtorForPUSH
 {
+    self.toView.frame = CGRectMake(0, 64, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height - 64);
     [self.containerView addSubview:self.fromView];
     [self.containerView addSubview:self.toView];
     self.toView.transform = CGAffineTransformTranslate(self.toView.transform,SCRENNBOUNDS.size.width,0);
     self.toVC.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(SCRENNBOUNDS.size.width, 0);
+}
+
+-(void)endAnimtor
+{
+    //恢复导航栏
+//    self.fromVC.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+//    self.toVC.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+    //恢复控制器视图
+//    self.toView.transform = CGAffineTransformIdentity;
+//    self.fromView.transform = CGAffineTransformIdentity;
+    
+    self.toVC.navigationController.navigationBar.alpha = 1.0;
+    
+    self.fromVC.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+    
 }
 
 @end

@@ -58,6 +58,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     
     Identifier = @"cell";
     
@@ -72,7 +73,7 @@
     //init tableView
     UITableView *tableView =
     ({
-        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, -20, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height - 49 + 20) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, -64, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height + 64 - 49) style:UITableViewStylePlain];
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.rowHeight = 100;
@@ -102,7 +103,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
+    
+    self.navigationController.navigationBar.alpha = 0.0;
+   
     self.navigationController.delegate = nil;
 }
 
@@ -151,7 +154,6 @@
     
     self.navigationController.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
-    [self.navigationController setNavigationBarHidden:NO];
     
 }
 
@@ -178,6 +180,11 @@
                                                          fromViewController:(UIViewController *)fromVC
                                                            toViewController:(UIViewController *)toVC
 {
-    return self.Animtor;
+    
+//    if (operation == UINavigationControllerOperationPop)
+//    {
+//        return self.Animtor;
+//    }
+    return nil;
 }
 @end

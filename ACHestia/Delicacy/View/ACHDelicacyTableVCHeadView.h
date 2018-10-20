@@ -1,5 +1,5 @@
 //
-//  ACHFirstViewController.h
+//  ACHDelicacyTableVCHeadView.h
 //  ACHestia
 //
 //  Created by Acery on 2018/10/19.
@@ -10,9 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ACHFirstViewController : UIViewController
+@interface ACHDelicacyTableVCHeadView : UIView
 
-
++(instancetype)delicacyTableVCHeadView;
 
 @end
 

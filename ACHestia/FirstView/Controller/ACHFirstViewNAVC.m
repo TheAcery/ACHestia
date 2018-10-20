@@ -34,5 +34,18 @@
     return self;
 }
 
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+
+    viewController.navigationController.navigationBar.alpha = 0.0;
+    if (self.childViewControllers.count != 0)
+    {
+        viewController.hidesBottomBarWhenPushed = YES;
+    }
+    [super pushViewController:viewController animated:animated];
+
+}
+
+
 
 @end

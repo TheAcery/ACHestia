@@ -16,11 +16,9 @@
 
 -(void)setUpNAVCWithTitle:(NSString *)title ImageName:(NSString *)imageName SelectedImage:(NSString *)selectedImage
 {
-    
-    [self.navigationBar setBackgroundImage:[UIImage imageWithUIColor:UIColor.whiteColor] forBarMetrics:UIBarMetricsDefault];
-    
-//    [self.navigationBar setBarTintColor:UIColor.whiteColor];
     [self.navigationBar setShadowImage:[UIImage alloc]];
+    
+    [self setBarBKColor:UIColor.whiteColor];
     
     self.tabBarItem.title = title;
     
@@ -34,17 +32,32 @@
     [self.tabBarItem setSelectedImage:[UIImage UNRenderimageNamed:selectedImage]];
 }
 
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    
-    if (self.childViewControllers.count != 0)
-    {
-        viewController.hidesBottomBarWhenPushed = YES;
-    }
-    [super pushViewController:viewController animated:animated];
-    
-    
-}
 
+#pragma mark - funs
+/****************************************************************************************************************/
+
+//使用子控件的方式设置bar背景的颜色，这样不会对bar的位置产生影响
+-(void)setBarBKColor:(UIColor *)color
+{
+    for (UIView *view in self.navigationBar.subviews)
+    {
+        if ([view isKindOfClass:NSClassFromString(@"_UIBarBackground")])
+        {
+            UIImageView *bkkView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 375, 64)];
+            bkkView.image = [UIImage imageWithUIColor:color];
+            [view addSubview:bkkView];
+            
+            for (UIView *otherView in view.subviews)
+            {
+                if ([otherView isKindOfClass:NSClassFromString(@"UIVisualEffectView")])
+                {
+                    otherView.hidden = YES;
+                    
+                }
+            }
+        }
+        
+    }
+}
 
 @end
