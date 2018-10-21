@@ -56,13 +56,13 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="indexSuperView" destination="eRL-yj-9tF" id="1cY-9b-12z"/>
                 <outlet property="oneButton" destination="ZKD-wf-nkG" id="tkc-hn-tJq"/>
-                <outlet property="scrollIndexView" destination="eRL-yj-9tF" id="1cY-9b-12z"/>
                 <outlet property="stackView" destination="KF0-7k-fZw" id="mOz-Zf-G0Q"/>
                 <outlet property="threeButton" destination="giU-Zl-zDN" id="53L-Eb-ePs"/>
                 <outlet property="twoButton" destination="G1O-rj-cKT" id="4Y9-G1-SFc"/>
             </connections>
-            <point key="canvasLocation" x="197.59999999999999" y="-35.982008995502248"/>
+            <point key="canvasLocation" x="196" y="-36"/>
         </view>
     </objects>
     <resources>

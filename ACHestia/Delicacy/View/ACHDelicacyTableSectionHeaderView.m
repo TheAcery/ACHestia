@@ -7,11 +7,13 @@
 //
 
 #import "ACHDelicacyTableSectionHeaderView.h"
-#import "ACHButton.h"
+
+#warning TODO 重新创建传递titleIndexView位置的机制
 
 
 @interface ACHDelicacyTableSectionHeaderView ()
-@property (weak, nonatomic) IBOutlet UIView *scrollIndexView;
+
+@property (weak, nonatomic) IBOutlet UIView *indexSuperView;
 
 @property (weak, nonatomic) IBOutlet UIStackView *stackView;
 
@@ -49,7 +51,7 @@
 {
     UIView *subView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.oneButton.ACwidth, 5)];
     subView.backgroundColor = UIColor.yellowColor;
-    [self.scrollIndexView addSubview:subView];
+    [self.indexSuperView addSubview:subView];
 }
 
 -(void)addButtonAction
@@ -61,9 +63,9 @@
 
 -(void)moveSubView:(CGFloat)boundsX
 {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.scrollIndexView.bounds = CGRectMake(boundsX, 0, self.scrollIndexView.bounds.size.width, self.scrollIndexView.bounds.size.height);
-        } completion:nil];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.indexSuperView.bounds = CGRectMake(boundsX, 0, self.indexSuperView.bounds.size.width, self.indexSuperView.bounds.size.height);
+    } completion:nil];
 }
 
 #pragma mark - action
@@ -102,25 +104,29 @@
     }
 }
 
+
+#pragma mark - funs
+/****************************************************************************************************************/
+
 -(void)scrollToOne
 {
     [self moveSubView:0];
     
-    _subViewState = ACHDelicacyTableSectionHeaderViewSubViewStateOne;
+    _titleIndexViewState = ACHDelicacyTableSectionHeaderTitleIndexViewInOne;
 }
 
 -(void)scrollToTwo
 {
     [self moveSubView:(- self.stackView.spacing - self.oneButton.ACwidth)];
     
-    _subViewState = ACHDelicacyTableSectionHeaderViewSubViewStateTwo;
+    _titleIndexViewState = ACHDelicacyTableSectionHeaderTitleIndexViewInTwo;
 }
 
 -(void)scrollToThree
 {
     [self moveSubView:(- self.stackView.spacing - self.oneButton.ACwidth) * 2];
     
-    _subViewState = ACHDelicacyTableSectionHeaderViewSubViewStateThree;
+    _titleIndexViewState = ACHDelicacyTableSectionHeaderTitleIndexViewInThree;
 }
 
 
