@@ -109,26 +109,6 @@
     [self setUp];
     //set subViews
     
-    //get Count
-    CGFloat countOne = self.group[0].count;
-    CGFloat countTwo = self.group[1].count;
-    //    CGFloat countThree = self.group[2].count;
-    
-    //计算每个header的rect
-    
-    
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    
-    
-    
-    
-#warning TODO 重新计算y值 ,cell的懒加载
     
 }
 
@@ -268,17 +248,6 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-{
-    //让第一组的header一只保持，同时划过第二组的时候更新header，并非替换
-    //创建自己的view代替header ----> 在划到第一组的时候显示header,把这个header放入tableviewheader
-}
-
-- (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section
-
-{
-
-}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -287,43 +256,18 @@
     HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y - 64 - TableViewHeaderHeight;
     HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y - 64 - TableViewHeaderHeight;
     
-    NSLog(@"%f ------ %f ------- %f ---- %f",HeaderInSectionOne,HeaderInSectionTwo,HeaderInSectionThree,self.tableView.contentOffset.y);
-    
     if (scrollView.contentOffset.y >= HeaderInSectionOne)
     {
+        
         self.tableSectionHeaderView.alpha = 1.0;
         
-        if (scrollView.contentOffset.y >= HeaderInSectionOne && scrollView.contentOffset.y < HeaderInSectionTwo)//处于1
-        {
-            //让SectionHeaderView的scrollSubviewd滚动到1
-            if (self.tableSectionHeaderView.titleIndexViewState != ACHDelicacyTableSectionHeaderTitleIndexViewInOne)// && self.tableView.decelerating
-            {
-                [self.tableSectionHeaderView scrollToOne];
-                //让真正的SectionHeaderView滚动到1
-                [self.realSectionHeaderView scrollToOne];
-            }
-            
-        }
+        CGRect tableViewHeadRect = [self.view convertRect:CGRectMake(0, 64 + TableViewHeaderHeight, 375, 250) toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathsForRowsInRect:tableViewHeadRect].firstObject;
+        NSInteger section = indexPath.section;
         
-        if (scrollView.contentOffset.y >= HeaderInSectionTwo && scrollView.contentOffset.y < HeaderInSectionThree)//处于2
-        {
-            //让SectionHeaderView的scrollSubviewd滚动到2
-            
-            if (self.tableSectionHeaderView.titleIndexViewState != ACHDelicacyTableSectionHeaderTitleIndexViewInTwo)
-            {
-                [self.tableSectionHeaderView scrollToTwo];
-            }
-        }
-       if (scrollView.contentOffset.y >= HeaderInSectionThree)//处于3
-        {
-            //让SectionHeaderView的scrollSubviewd滚动到3
-            
-            if (self.tableSectionHeaderView.titleIndexViewState != ACHDelicacyTableSectionHeaderTitleIndexViewInThree)
-            {
-                [self.tableSectionHeaderView scrollToThree];
-            }
-            
-        }
+        [self.tableSectionHeaderView buttonScroll:section];
+        
+
     }
     else
     {
@@ -343,35 +287,13 @@
 #pragma mark - ACHDelicacyTableSectionHeaderViewDelegate
 /****************************************************************************************************************/
 
-//滚动到第一组
--(void)didDelicacyTableSectionHeaderViewOneButtonClip:(ACHButton *)btn
-{
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 
+- (void)didDelicacyTableSectionHeaderViewButtonClip:(ACHButton *)btn WithIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:index];
+    
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
     [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - 40)  animated:NO];
-}
-
-//滚动到第二组
--(void)didDelicacyTableSectionHeaderViewTwoButtonClip:(ACHButton *)btn
-{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-//    [self.tableView setContentOffset:CGPointMake(0, HeaderInSectionTwo) animated:NO];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    
-    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - 40)  animated:NO];
-    
-}
-
-//滚动到第三组
--(void)didDelicacyTableSectionHeaderViewThreeButtonClip:(ACHButton *)btn
-{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-//    [self.tableView setContentOffset:CGPointMake(0, HeaderInSectionThree) animated:NO];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - 40)  animated:NO];
-
 }
 
 @end
