@@ -20,6 +20,8 @@
 //define
 
 #define TableViewHeaderHeight 60
+#define RowHeight 250
+#define TableViewOtherHeaderHeight 20
 
 @interface ACHDelicacyTableVC () <UITableViewDelegate,UITableViewDataSource,ACHDelicacyTableSectionHeaderViewDelegate>
 
@@ -55,8 +57,8 @@
     if (_tableSectionHeaderView == nil)
     {
         //创建tableSectionHeaderView的占位视图
-        UIView *tableSectioncontainerView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCRENNBOUNDS.size.width, TableViewHeaderHeight)];
-//        tableSectioncontainerView.alpha = 0.0;
+        UIView *tableSectioncontainerView = [[UIView alloc]initWithFrame:CGRectMake(0, HeaderBarHeight, SCRENNBOUNDS.size.width, TableViewHeaderHeight)];
+
         [self.view addSubview:tableSectioncontainerView];
         
         //创建tableSectionHeaderView
@@ -89,10 +91,10 @@
 {
     if (_tableView == nil)
     {
-        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height - 49 ) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height - TabBarHeight ) style:UITableViewStylePlain];
         tableView.dataSource = self;
         tableView.delegate = self;
-        tableView.rowHeight = 250;
+        tableView.rowHeight = RowHeight;
         [self.view addSubview:tableView];
         _tableView = tableView;
     }
@@ -105,11 +107,19 @@
 /****************************************************************************************************************/
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //set title
+    //setUp
     [self setUp];
     //set subViews
     
     
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    //计算tableSectionHeaderView 和 realSectionHeaderView交替的差值
+     HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y - HeaderBarHeight;
 }
 
 #pragma mark - lazy init
@@ -221,7 +231,7 @@
         return sectionHeaderView;
     }
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 20)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, StatusBarHeight)];
     view.backgroundColor = UIColor.yellowColor;
     
     return view;
@@ -240,7 +250,7 @@
     {
         return TableViewHeaderHeight;
     }
-    return 20;
+    return TableViewOtherHeaderHeight;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -251,21 +261,22 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    /**每次滚动计算*/
-    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y - 64;
-    HeaderInSectionTwo = [self.tableView rectForHeaderInSection:1].origin.y - 64 - TableViewHeaderHeight;
-    HeaderInSectionThree = [self.tableView rectForHeaderInSection:2].origin.y - 64 - TableViewHeaderHeight;
-    
+
     if (scrollView.contentOffset.y >= HeaderInSectionOne)
     {
         
         self.tableSectionHeaderView.alpha = 1.0;
         
-        CGRect tableViewHeadRect = [self.view convertRect:CGRectMake(0, 64 + TableViewHeaderHeight, 375, 250) toView:self.tableView];
+        CGRect tableViewHeadRect = [self.view convertRect:CGRectMake(0, HeaderBarHeight + TableViewHeaderHeight, SCRENNBOUNDS.size.width, RowHeight) toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathsForRowsInRect:tableViewHeadRect].firstObject;
         NSInteger section = indexPath.section;
         
         [self.tableSectionHeaderView buttonScroll:section];
+        
+        if (section == 0)//复原真实的headerView //让两个headViewa保持一致
+        {
+            [self.realSectionHeaderView buttonScroll:0];
+        }
         
 
     }
@@ -293,7 +304,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:index];
     
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - 40)  animated:NO];
+    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - (TableViewHeaderHeight - TableViewOtherHeaderHeight) )  animated:NO];
 }
 
 @end

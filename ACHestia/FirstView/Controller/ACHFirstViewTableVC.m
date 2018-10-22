@@ -19,6 +19,7 @@
 #import "ACHFirstViewController.h"
 
 #define FASTVIEWHIGHT 300.0
+#define RowHeight 100
 
 @interface ACHFirstViewTableVC () <UITableViewDelegate,UITableViewDataSource>
 
@@ -73,10 +74,13 @@
     //init tableView
     UITableView *tableView =
     ({
-        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, -64, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height + 64 - 49) style:UITableViewStylePlain];
+        
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height + HeaderBarHeight - TabBarHeight) style:UITableViewStylePlain];
+        
+        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         tableView.delegate = self;
         tableView.dataSource = self;
-        tableView.rowHeight = 100;
+        tableView.rowHeight = RowHeight;
         tableView.tableHeaderView = fastView;
         tableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageWithUIColor:UIColor.redColor]];
         self.tableView = tableView;
@@ -86,9 +90,11 @@
     //inti headView
     UIView *headView =
     ({
-        UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 70)];
+        /**这是一个投机取巧的做法，让headView包裹着真正的HeaderInSection ，这个view会挡住全部餐厅，而这部分正好是导航栏的高度*/
+        
+        UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, HeaderBarHeight)];
         ACHFirstHeadView *firstHeadView = [ACHFirstHeadView firstHeadView];
-        firstHeadView.ACy = 20;
+        firstHeadView.frame = CGRectMake(0, HeaderBarHeight - firstHeadView.ACheight, SCRENNBOUNDS.size.width, firstHeadView.ACheight);
         [headView addSubview:firstHeadView];
         self.headView = headView;
         headView;
@@ -97,13 +103,14 @@
     
     [self.view addSubview:tableView];
     [self.view addSubview:headView];
-    
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
+    //这个VC的NAVCbar是始终隐藏的
     self.navigationController.navigationBar.alpha = 0.0;
 
 }
@@ -135,12 +142,15 @@
 
 {
     ACHFirstViewTableHeadView *view = [ACHFirstViewTableHeadView firstViewTableHeadView];
+    view.frame = CGRectMake(0, 0, view.ACwidth, HeaderBarHeight + 40);
+    
     return view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 120;
+    
+    return HeaderBarHeight + 40;
 }
 
 #pragma mark -UITableViewDelegate
@@ -160,8 +170,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    //随着tableView的滚动设置headerView的alpah
+    CGFloat alpha = 1.0 * (scrollView.contentOffset.y/ 75);
     
-    CGFloat alpha = 1 - (scrollView.contentOffset.y/ (-20));
 
     self.headView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:alpha];
     //设置 sectionHeadView 的阴影

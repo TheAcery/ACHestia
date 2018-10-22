@@ -8,15 +8,23 @@
 
 #import "ACHShopCarNAVC.h"
 
+
+//VC
+#import "ACHShopCarVC.h"
+
 @interface ACHShopCarNAVC ()
 
 @end
 
 @implementation ACHShopCarNAVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    
+    ACHShopCarVC *vc = [[ACHShopCarVC alloc]init];
    
+    [self addChildViewController:vc];
     
 }
 

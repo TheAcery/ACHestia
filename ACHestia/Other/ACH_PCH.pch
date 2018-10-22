@@ -9,7 +9,15 @@
 #ifndef ACH_PCH_pch
 #define ACH_PCH_pch
 
+//define
 #define SCRENNBOUNDS [UIScreen mainScreen].bounds
+#define StatusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+#define NAVCBarHeight self.navigationController.navigationBar.ACheight
+#define HeaderBarHeight ([UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.ACheight)
+#define TabBarHeight self.tabBarController.tabBar.ACheight
+
+
+//import
 #import "UIImage+ACH.h"
 #import "UIView+frame.h"
 

@@ -4,7 +4,19 @@
 //
 //  Created by Acery on 2018/10/15.
 //  Copyright © 2018年 Acery. All rights reserved.
-//
+//  这个view描述了ACHFirstViewTableView位于tableView头部的视图，随着tablrView的滚动而滚动
+
+#warning TODO 重写
+
+
+/**
+ * 这个视图挺复杂的，使用占位视图来模块化整个视图，这个视图包括了四个部分
+ * 最上面的bigScrollView、中间的跳转按钮和精选品牌滚动视图、最下面的滚动视图（按钮是他们的索引指示）
+ * 所以我们需要四个视图，每个占位视图中的详细内容都有其他的类去描述
+ * 既然这个视图中有很多的滚动视图，我们可以创建他们的父类来设置一些公共的属性和功能，比如无限滚动 --> jump
+ * 创建完视图之后我们需要为他添加功能，包括事件的传递，delegate
+ */
+
 
 #import "ACHFastView.h"
 
@@ -17,7 +29,7 @@
 @interface ACHFastView () <UIScrollViewDelegate>
 
 
-
+#warning TODO  整理代码
 
 #pragma mark - scrollViews
 /****************************************************************************************************************/

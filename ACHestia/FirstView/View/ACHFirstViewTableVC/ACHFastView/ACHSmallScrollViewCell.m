@@ -4,7 +4,7 @@
 //
 //  Created by Acery on 2018/10/15.
 //  Copyright © 2018年 Acery. All rights reserved.
-//  创建SmallScrollView的每个cell
+//  创建SmallScrollView的每个cell，提供了类方法快速创建cell
 
 #import "ACHSmallScrollViewCell.h"
 

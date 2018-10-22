@@ -4,7 +4,7 @@
 //
 //  Created by Acery on 2018/10/19.
 //  Copyright © 2018年 Acery. All rights reserved.
-//  自定义转场交互
+//  废弃
 
 #import "ACHFirstViewDrivenInteractiveTransition.h"
 

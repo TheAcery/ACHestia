@@ -39,7 +39,7 @@
     {
         if ([view isKindOfClass:NSClassFromString(@"_UIBarBackground")])
         {
-            UIImageView *bkkView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 375, 64)];
+            UIImageView *bkkView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, view.ACheight)];
             bkkView.image = [UIImage imageWithUIColor:color];
             [view addSubview:bkkView];
             
@@ -61,10 +61,22 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    //在viewDidAppear中修改背景图片
     
     [self.navigationBar setShadowImage:[UIImage alloc]];
     
     [self setBarBKColor:UIColor.whiteColor];
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    
+    if (self.childViewControllers.count != 0)
+    {
+        viewController.hidesBottomBarWhenPushed = YES;
+    }
+    [super pushViewController:viewController animated:animated];
+    
 }
 
 @end

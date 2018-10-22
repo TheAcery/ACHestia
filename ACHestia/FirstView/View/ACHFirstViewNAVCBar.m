@@ -48,6 +48,12 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+//    NSLog(@"---- %f",self.ACheight);
+    self.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, self.ACheight);
+}
 
 #pragma mark - funs
 /****************************************************************************************************************/

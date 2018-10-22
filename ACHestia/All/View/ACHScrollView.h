@@ -10,13 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ACHScrollView : UIView
+@interface ACHScrollView : UIScrollView
 
 +(instancetype)scrollViewWithFrame:(CGRect)frame Views:(NSArray <UIView *>*)views;
 
 - (instancetype)initWithFrame:(CGRect)frame Views:(NSArray <UIView *>*)views;
 
+
+/**上一页*/
 -(void)pageUp;
+
+/**下一页*/
+-(void)pageDown;
 
 -(void)addViewToContentView:(CGPoint)contentOffset;
 
