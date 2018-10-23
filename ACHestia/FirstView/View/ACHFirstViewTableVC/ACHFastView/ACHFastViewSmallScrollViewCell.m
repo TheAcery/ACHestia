@@ -6,9 +6,9 @@
 //  Copyright © 2018年 Acery. All rights reserved.
 //  创建SmallScrollView的每个cell，提供了类方法快速创建cell
 
-#import "ACHSmallScrollViewCell.h"
+#import "ACHFastViewSmallScrollViewCell.h"
 
-@interface ACHSmallScrollViewCell ()
+@interface ACHFastViewSmallScrollViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -18,11 +18,11 @@
 @end
 
 
-@implementation ACHSmallScrollViewCell
+@implementation ACHFastViewSmallScrollViewCell
 
 +(instancetype)smallScrollViewCellWithItem:(ACHSmallScrollViewCellItem *)item;
 {
-    ACHSmallScrollViewCell *cell = [[NSBundle mainBundle]loadNibNamed:@"ACHSmallScrollViewCell" owner:nil options:nil].firstObject;
+    ACHFastViewSmallScrollViewCell *cell = [[NSBundle mainBundle]loadNibNamed:@"ACHFastViewSmallScrollViewCell" owner:nil options:nil].firstObject;
     
     [cell initWithItem:(item)];
     

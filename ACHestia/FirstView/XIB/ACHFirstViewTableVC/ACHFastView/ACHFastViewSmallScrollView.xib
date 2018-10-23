@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ACHFastViewSmallScrollView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-Mw-5Ru">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="7Bb-vA-Wv2"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZGe-w1-waQ">
+                    <rect key="frame" x="27.5" y="155" width="320" height="45"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Bf-iT-0lF" customClass="ACHButton">
+                            <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="Eph-do-bPp"/>
+                                <constraint firstAttribute="width" constant="45" id="kWU-Qa-dqE"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="ORIimage"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXP-XN-zWg" customClass="ACHButton">
+                            <rect key="frame" x="55" y="0.0" width="45" height="45"/>
+                            <state key="normal" backgroundImage="ORIimage"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oT8-lv-ZwH" customClass="ACHButton">
+                            <rect key="frame" x="110" y="0.0" width="45" height="45"/>
+                            <state key="normal" backgroundImage="ORIimage"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AYu-4l-XA7" customClass="ACHButton">
+                            <rect key="frame" x="165" y="0.0" width="45" height="45"/>
+                            <state key="normal" backgroundImage="ORIimage"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bt2-Ve-FMe" customClass="ACHButton">
+                            <rect key="frame" x="220" y="0.0" width="45" height="45"/>
+                            <state key="normal" backgroundImage="ORIimage"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swR-xV-aOd" customClass="ACHButton">
+                            <rect key="frame" x="275" y="0.0" width="45" height="45"/>
+                            <state key="normal" backgroundImage="ORIimage"/>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" priority="800" constant="200" id="Xc6-Fx-Bb6"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ZGe-w1-waQ" secondAttribute="bottom" id="5iK-EX-0cl"/>
+                <constraint firstItem="ACj-Mw-5Ru" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="NcR-en-49P"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ACj-Mw-5Ru" secondAttribute="trailing" id="Q49-z4-fgi"/>
+                <constraint firstItem="ACj-Mw-5Ru" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Qwc-W9-clr"/>
+                <constraint firstItem="ZGe-w1-waQ" firstAttribute="top" secondItem="ACj-Mw-5Ru" secondAttribute="bottom" constant="5" id="W98-Cf-hxh"/>
+                <constraint firstItem="ZGe-w1-waQ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="lGK-cI-yjT"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="buttonFive" destination="bt2-Ve-FMe" id="0SU-hd-2N1"/>
+                <outlet property="buttonFour" destination="AYu-4l-XA7" id="u1V-ID-gP8"/>
+                <outlet property="buttonThree" destination="oT8-lv-ZwH" id="HNh-L9-jhL"/>
+                <outlet property="buttonTwo" destination="AXP-XN-zWg" id="Vis-er-DiD"/>
+                <outlet property="buttonnOne" destination="2Bf-iT-0lF" id="lhn-nx-oXB"/>
+                <outlet property="scrollContentview" destination="ACj-Mw-5Ru" id="30E-yg-z5q"/>
+            </connections>
+            <point key="canvasLocation" x="-233" y="67"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ORIimage" width="400" height="400"/>
+    </resources>
+</document>

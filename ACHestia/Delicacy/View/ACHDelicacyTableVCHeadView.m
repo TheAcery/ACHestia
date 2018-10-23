@@ -7,12 +7,13 @@
 //
 
 #import "ACHDelicacyTableVCHeadView.h"
+#import "ACHScrollView.h"
 
 #define SubViewsConut 3
 
 @interface ACHDelicacyTableVCHeadView ()
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet ACHScrollView *scrollView;
 
 
 @end
@@ -28,18 +29,29 @@
 {
     [super awakeFromNib];
     
+    self.ACwidth = SCRENNBOUNDS.size.width;
+    self.scrollView.ACwidth = SCRENNBOUNDS.size.width;// -------------------
+    [self setNeedsLayout];
+    
+    [self makeViews];
+}
+
+-(void)makeViews
+{
+    
+    NSMutableArray *views = [NSMutableArray array];
     for (int subViewsConut = 0; subViewsConut < SubViewsConut; subViewsConut++)
-    {
-        //add subViews
         
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(subViewsConut * self.scrollView.ACwidth, 0, self.scrollView.ACwidth, self.scrollView.ACheight)];
+    {
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(subViewsConut * SCRENNBOUNDS.size.width, 0, SCRENNBOUNDS.size.width, self.scrollView.ACheight)];
         imageView.image = [UIImage imageNamed:@"ORIimage"];
         
-        [self.scrollView addSubview:imageView];
-
+        [views addObject:imageView];
+        
     }
     
-    self.scrollView.contentSize = CGSizeMake(SubViewsConut * self.scrollView.ACwidth, 0);
+    self.scrollView.views = views;
 }
+
 
 @end

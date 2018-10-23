@@ -12,7 +12,7 @@
 
 #import "ACHScrollView.h"
 
-@interface ACHShopCarVC ()
+@interface ACHShopCarVC () <UIScrollViewDelegate>
 
 @property (nonatomic, weak) ACHScrollView *scrollView;
 
@@ -42,53 +42,59 @@
         UIView *view3 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
         view3.backgroundColor = UIColor.blackColor;
         [views addObject:view3];
+        
+        UIView *view4 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
+        view4.backgroundColor = UIColor.orangeColor;
+        [views addObject:view4];
+        
+        UIView *view5 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
+        view5.backgroundColor = UIColor.purpleColor;
+        [views addObject:view5];
+        
         ACHScrollView *scrollView = [ACHScrollView scrollViewWithFrame:CGRectMake(0, 200, 375, 200) Views:views];
         self.scrollView = scrollView;
+        scrollView.delegate = self;
         scrollView;
     });
     
     
     [self.view addSubview:scrollView];
     
-    UIButton *pageUp =
-    ({
-        
-        UIButton *pageUp = [UIButton buttonWithType:UIButtonTypeCustom];
-        pageUp.frame = CGRectMake(0, 500, 50, 50);
-        pageUp.backgroundColor = UIColor.redColor;
-        [pageUp addTarget:self action:@selector(pageUp) forControlEvents:UIControlEventTouchUpInside];
-        pageUp;
-    });
+    UIButton *up = [[UIButton alloc]initWithFrame:CGRectMake(0, 500, 50, 50)];
+    [up setTitle:@"up" forState:UIControlStateNormal];
+    [up setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [up addTarget:self action:@selector(up) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *pageDown =
-    ({
-        
-        UIButton *pageDown = [UIButton buttonWithType:UIButtonTypeCustom];
-        pageDown.frame = CGRectMake(100, 500, 50, 50);
-        pageDown.backgroundColor = UIColor.blueColor;
-        [pageDown addTarget:self action:@selector(pageDown) forControlEvents:UIControlEventTouchUpInside];
-        pageDown;
-    });
-    
-    [self.view addSubview:pageUp];
-    [self.view addSubview:pageDown];
-    
-    
+    UIButton *down = [[UIButton alloc]initWithFrame:CGRectMake(200, 500, 50, 50)];
+    [down setTitle:@"down" forState:UIControlStateNormal];
+    [down setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [down addTarget:self action:@selector(down) forControlEvents:UIControlEventTouchUpInside];
+   
+    [self.view addSubview:up];
+    [self.view addSubview:down];
 }
 
 
 #pragma mark - action
 /****************************************************************************************************************/
 
--(void)pageUp
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
 {
-    [self.scrollView pageUp];
+    NSInteger index = scrollView.contentOffset.x / scrollView.ACwidth;
+    NSLog(@"index --- %zd",index);
 }
 
--(void)pageDown
+-(void)up
 {
-    [self.scrollView pageDown];
+
+    [self.scrollView pageIsUp:YES];
+
 }
 
+-(void)down
+{
+    [self.scrollView pageIsUp:NO];
+}
 
 @end

@@ -21,7 +21,7 @@
 #define FASTVIEWHIGHT 300.0
 #define RowHeight 100
 
-@interface ACHFirstViewTableVC () <UITableViewDelegate,UITableViewDataSource>
+@interface ACHFirstViewTableVC () <UITableViewDelegate,UITableViewDataSource,ACHFastViewDelegate>
 
 @property (nonatomic, strong) ACHFirstViewTranslationAnimtor *Animtor;
 
@@ -37,9 +37,9 @@
 
 @implementation ACHFirstViewTableVC
 
-{
-    NSString *Identifier;
-}
+
+    NSString  *Identifier  = @"cell";
+
 
 
 #pragma mark - lazy init
@@ -60,49 +60,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
-    Identifier = @"cell";
-    
-    //init fastView
-    UIView *fastView =
-    ({
-        ACHFastView *fastView = [ACHFastView fastView];
-        self.fastView = fastView;
-        fastView;
-    });
-    
-    //init tableView
-    UITableView *tableView =
-    ({
-        
-        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height + HeaderBarHeight - TabBarHeight) style:UITableViewStylePlain];
-        
-        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        tableView.delegate = self;
-        tableView.dataSource = self;
-        tableView.rowHeight = RowHeight;
-        tableView.tableHeaderView = fastView;
-        tableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageWithUIColor:UIColor.redColor]];
-        self.tableView = tableView;
-        tableView;
-    });
-    
-    //inti headView
-    UIView *headView =
-    ({
-        /**这是一个投机取巧的做法，让headView包裹着真正的HeaderInSection ，这个view会挡住全部餐厅，而这部分正好是导航栏的高度*/
-        
-        UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, HeaderBarHeight)];
-        ACHFirstHeadView *firstHeadView = [ACHFirstHeadView firstHeadView];
-        firstHeadView.frame = CGRectMake(0, HeaderBarHeight - firstHeadView.ACheight, SCRENNBOUNDS.size.width, firstHeadView.ACheight);
-        [headView addSubview:firstHeadView];
-        self.headView = headView;
-        headView;
-    });
+    [self setUpSubViews];
     
     
-    [self.view addSubview:tableView];
-    [self.view addSubview:headView];
 
 }
 
@@ -178,5 +138,86 @@
     //设置 sectionHeadView 的阴影
 }
 
+#pragma mark - setUp
+/****************************************************************************************************************/
+
+
+-(void)setUpSubViews
+{
+    //init fastView
+    UIView *fastView =
+    ({
+        ACHFastView *fastView = [ACHFastView fastView];
+        fastView.delegate = self;
+        self.fastView = fastView;
+        fastView;
+    });
+    
+    //init tableView
+    UITableView *tableView =
+    ({
+        
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, SCRENNBOUNDS.size.height - TabBarHeight ) style:UITableViewStylePlain];
+        
+        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        tableView.rowHeight = RowHeight;
+        tableView.tableHeaderView = fastView;
+        tableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageWithUIColor:UIColor.redColor]];
+        self.tableView = tableView;
+        tableView;
+    });
+    
+    //inti headView
+    UIView *headView =
+    ({
+        /**这是一个投机取巧的做法，让headView包裹着真正的HeaderInSection ，这个view会挡住全部餐厅，而这部分正好是导航栏的高度*/
+        
+        UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, HeaderBarHeight)];
+        ACHFirstHeadView *firstHeadView = [ACHFirstHeadView firstHeadView];
+        firstHeadView.frame = CGRectMake(0, HeaderBarHeight - firstHeadView.ACheight, SCRENNBOUNDS.size.width, firstHeadView.ACheight);
+        [headView addSubview:firstHeadView];
+        self.headView = headView;
+        headView;
+    });
+    
+    
+    [self.view addSubview:tableView];
+    [self.view addSubview:headView];
+    
+}
+
+
+#pragma mark - ACHFastViewDelegate
+/****************************************************************************************************************/
+
+/**
+ * 将跳转到指定的控制器
+ */
+
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view FirstButtonClip:(ACHButton *)btn
+{
+    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+}
+
+/**当FastViewJumpView的FirstButton被点击时调用*/
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view CutDownButtonClip:(ACHButton *)btn;
+{
+    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+}
+
+
+/**当FastViewJumpView的FirstButton被点击时调用*/
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view BrandButtonClip:(ACHButton *)btn
+{
+    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+}
+
+/**当FastViewJumpView的FirstButton被点击时调用*/
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view DelicacyButtonClip:(ACHButton *)btn
+{
+    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+}
 
 @end

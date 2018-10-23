@@ -8,22 +8,32 @@
 
 #import <UIKit/UIKit.h>
 
+@class ACHScrollView;
+
 NS_ASSUME_NONNULL_BEGIN
+@protocol ACHScrollViewDelegate <NSObject>
+
+-(void)didACHScrollView:(ACHScrollView *)ACHScrollView ScrollAtViewWithIndex:(NSInteger)index;
+
+@end
+
 
 @interface ACHScrollView : UIScrollView
 
-+(instancetype)scrollViewWithFrame:(CGRect)frame Views:(NSArray <UIView *>*)views;
++(instancetype)scrollViewWithFrame:(CGRect)frame Views:(NSArray<UIView *> *)views;
 
-- (instancetype)initWithFrame:(CGRect)frame Views:(NSArray <UIView *>*)views;
+@property (nonatomic, weak) id <ACHScrollViewDelegate> loopScrollDelegate;
+
+-(void)pageIsUp:(BOOL)up;
+
+@property (nonatomic, strong) NSArray<UIView *> *views;
 
 
-/**上一页*/
--(void)pageUp;
+/**开启或者继续自动滚动*/
+-(void)scrollViewAutoScroll:(CGFloat)timerInterval;
 
-/**下一页*/
--(void)pageDown;
-
--(void)addViewToContentView:(CGPoint)contentOffset;
+/**停止自动滚动*/
+-(void)scrollViewCancelAutoScroll;
 
 @end
 

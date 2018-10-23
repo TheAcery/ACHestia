@@ -46,6 +46,9 @@
     [self addIndexView];
     
     [self addButtonAction];
+    
+    //重新确定大小
+    self.ACwidth = SCRENNBOUNDS.size.width;
 }
 
 #pragma mark - lazy init
@@ -102,7 +105,7 @@
  
  * 2.传入buttonScroll:以滚动idnexView。
  
- * 3.抛出时间让ACHDelicacyTableVC滚动到指定的组。
+ * 3.抛出事件让ACHDelicacyTableVC滚动到指定的组。
  
  */
 

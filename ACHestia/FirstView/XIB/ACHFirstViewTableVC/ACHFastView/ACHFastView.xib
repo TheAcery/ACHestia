@@ -16,151 +16,57 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="580"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="unZ-UL-nZD">
-                    <rect key="frame" x="10" y="220" width="355" height="50"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTw-JG-sZk" customClass="ACHButton">
-                            <rect key="frame" x="0.0" y="0.0" width="81.5" height="50"/>
-                            <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <state key="normal" backgroundImage="ORIimage"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjD-dj-9U1" customClass="ACHButton">
-                            <rect key="frame" x="91.5" y="0.0" width="81" height="50"/>
-                            <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <state key="normal" backgroundImage="ORIimage"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m0O-zw-x8N" customClass="ACHButton">
-                            <rect key="frame" x="182.5" y="0.0" width="81.5" height="50"/>
-                            <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <state key="normal" backgroundImage="ORIimage"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tz5-o4-u4x" customClass="ACHButton">
-                            <rect key="frame" x="274" y="0.0" width="81" height="50"/>
-                            <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <state key="normal" backgroundImage="ORIimage"/>
-                        </button>
-                    </subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MYC-ob-KgM">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UKl-Bs-LRj">
+                    <rect key="frame" x="0.0" y="230" width="375" height="60"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="nJf-vM-yEw"/>
-                    </constraints>
-                </stackView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="精选品牌" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Za-hC-vWV">
-                    <rect key="frame" x="10" y="290" width="80" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="80" id="AR0-Od-pu8"/>
-                        <constraint firstAttribute="height" constant="30" id="Sei-Ox-WLi"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vRa-Qc-QXa">
-                    <rect key="frame" x="100" y="290" width="265" height="30"/>
-                    <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="tfx-8O-1gp"/>
-                    </constraints>
-                </scrollView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1V-AC-NNv">
-                    <rect key="frame" x="0.0" y="340" width="375" height="240"/>
-                    <subviews>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mQ-gY-UQg">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
-                            <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="150" id="xed-Jf-PHc"/>
-                            </constraints>
-                        </scrollView>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zNi-5R-zkR">
-                            <rect key="frame" x="50" y="170" width="275" height="50"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NR5-6n-eyp" customClass="ACHButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="47" height="50"/>
-                                    <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" backgroundImage="ORIimage"/>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3Y-ch-drV" customClass="ACHButton">
-                                    <rect key="frame" x="57" y="0.0" width="47" height="50"/>
-                                    <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" backgroundImage="ORIimage"/>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QWe-y8-xQE" customClass="ACHButton">
-                                    <rect key="frame" x="114" y="0.0" width="47" height="50"/>
-                                    <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" backgroundImage="ORIimage"/>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8eE-eK-W6l" customClass="ACHButton">
-                                    <rect key="frame" x="171" y="0.0" width="47" height="50"/>
-                                    <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" backgroundImage="ORIimage"/>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcZ-30-T1g" customClass="ACHButton">
-                                    <rect key="frame" x="228" y="0.0" width="47" height="50"/>
-                                    <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" backgroundImage="ORIimage"/>
-                                </button>
-                            </subviews>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="50" id="Hr6-dj-YHl"/>
-                                <constraint firstItem="QWe-y8-xQE" firstAttribute="centerX" secondItem="zNi-5R-zkR" secondAttribute="centerX" id="Uhz-Pi-j6Z"/>
-                            </constraints>
-                        </stackView>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="zNi-5R-zkR" firstAttribute="leading" secondItem="Y1V-AC-NNv" secondAttribute="leading" constant="50" id="0PQ-IR-TL0"/>
-                        <constraint firstItem="1mQ-gY-UQg" firstAttribute="leading" secondItem="Y1V-AC-NNv" secondAttribute="leading" id="8Gk-Bg-aKr"/>
-                        <constraint firstItem="zNi-5R-zkR" firstAttribute="top" secondItem="1mQ-gY-UQg" secondAttribute="bottom" constant="20" id="9OF-UQ-Mq1"/>
-                        <constraint firstAttribute="trailing" secondItem="1mQ-gY-UQg" secondAttribute="trailing" id="UZX-Uf-bbJ"/>
-                        <constraint firstItem="1mQ-gY-UQg" firstAttribute="top" secondItem="Y1V-AC-NNv" secondAttribute="top" id="avr-cK-kdI"/>
-                        <constraint firstAttribute="trailing" secondItem="zNi-5R-zkR" secondAttribute="trailing" constant="50" id="i6x-z7-puq"/>
+                        <constraint firstAttribute="height" constant="60" id="Rqq-CO-jnW"/>
                     </constraints>
                 </view>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Uj-1G-mH0">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
-                    <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXK-Md-oWD">
+                    <rect key="frame" x="10" y="310" width="355" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="200" id="lyU-hk-3nF"/>
+                        <constraint firstAttribute="height" constant="50" id="TXQ-3d-6rI"/>
                     </constraints>
-                </scrollView>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1V-AC-NNv">
+                    <rect key="frame" x="0.0" y="380" width="375" height="200"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="200" id="HJc-h3-II1"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="7Uj-1G-mH0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="4Tk-B2-t3o"/>
-                <constraint firstItem="7Uj-1G-mH0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="9tz-hN-xMb"/>
-                <constraint firstItem="vRa-Qc-QXa" firstAttribute="top" secondItem="unZ-UL-nZD" secondAttribute="bottom" constant="20" id="CVB-sQ-CuV"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7Uj-1G-mH0" secondAttribute="trailing" id="CpK-12-zm6"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="unZ-UL-nZD" secondAttribute="trailing" constant="10" id="MDO-sc-9k0"/>
-                <constraint firstItem="vRa-Qc-QXa" firstAttribute="leading" secondItem="9Za-hC-vWV" secondAttribute="trailing" constant="10" id="NBG-jf-oJR"/>
-                <constraint firstItem="Y1V-AC-NNv" firstAttribute="top" secondItem="9Za-hC-vWV" secondAttribute="bottom" constant="20" id="Phs-Jt-eUx"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Y1V-AC-NNv" secondAttribute="trailing" id="XcV-mv-WpV"/>
-                <constraint firstItem="unZ-UL-nZD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="YH8-8t-av0"/>
-                <constraint firstItem="9Za-hC-vWV" firstAttribute="top" secondItem="unZ-UL-nZD" secondAttribute="bottom" constant="20" id="ZPy-cV-KQs"/>
-                <constraint firstItem="unZ-UL-nZD" firstAttribute="top" secondItem="7Uj-1G-mH0" secondAttribute="bottom" constant="20" id="akv-Xh-SEn"/>
-                <constraint firstItem="Y1V-AC-NNv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kLo-uS-eSn"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Y1V-AC-NNv" secondAttribute="bottom" id="mf5-GQ-m5G"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="vRa-Qc-QXa" secondAttribute="trailing" constant="10" id="tMe-kG-yHe"/>
-                <constraint firstItem="9Za-hC-vWV" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="xJz-tZ-DkF"/>
+                <constraint firstItem="EXK-Md-oWD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="7qI-Lb-USr"/>
+                <constraint firstItem="Y1V-AC-NNv" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="7xM-Fi-o8i"/>
+                <constraint firstItem="MYC-ob-KgM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="8Iy-CP-iub"/>
+                <constraint firstItem="Y1V-AC-NNv" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="8lF-Kq-vPk"/>
+                <constraint firstItem="Y1V-AC-NNv" firstAttribute="top" secondItem="EXK-Md-oWD" secondAttribute="bottom" constant="20" id="9ly-S1-aYg"/>
+                <constraint firstItem="EXK-Md-oWD" firstAttribute="top" secondItem="UKl-Bs-LRj" secondAttribute="bottom" constant="20" id="Bxh-l5-o9q"/>
+                <constraint firstItem="UKl-Bs-LRj" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="Cls-Lc-0fV"/>
+                <constraint firstItem="Y1V-AC-NNv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="JKw-Sq-JdU"/>
+                <constraint firstItem="UKl-Bs-LRj" firstAttribute="top" secondItem="MYC-ob-KgM" secondAttribute="bottom" constant="20" id="VHh-RW-p1u"/>
+                <constraint firstItem="MYC-ob-KgM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fbm-o0-ryE"/>
+                <constraint firstItem="UKl-Bs-LRj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="qil-7u-AgP"/>
+                <constraint firstItem="MYC-ob-KgM" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="wez-vz-kUf"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="EXK-Md-oWD" secondAttribute="trailing" constant="10" id="y3W-rJ-QT6"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
-                <outlet property="bigButton1" destination="jTw-JG-sZk" id="onb-gN-SIu"/>
-                <outlet property="bigButton2" destination="gjD-dj-9U1" id="1AZ-Lc-wtd"/>
-                <outlet property="bigButton3" destination="m0O-zw-x8N" id="B82-XP-0p7"/>
-                <outlet property="bigButton4" destination="Tz5-o4-u4x" id="iYy-hR-cfg"/>
-                <outlet property="bigScrollView" destination="7Uj-1G-mH0" id="T76-Dy-9dE"/>
-                <outlet property="lineScrollView" destination="vRa-Qc-QXa" id="oro-kc-6n5"/>
-                <outlet property="samllButton1" destination="NR5-6n-eyp" id="EOr-DG-lGK"/>
-                <outlet property="samllButton2" destination="v3Y-ch-drV" id="yI2-5m-p96"/>
-                <outlet property="samllButton3" destination="QWe-y8-xQE" id="QIC-lr-XbC"/>
-                <outlet property="samllButton4" destination="8eE-eK-W6l" id="9di-9q-mOt"/>
-                <outlet property="smallScrollView" destination="1mQ-gY-UQg" id="eoU-rZ-hei"/>
+                <outlet property="bigView" destination="MYC-ob-KgM" id="iqz-2n-3gz"/>
+                <outlet property="jumpView" destination="UKl-Bs-LRj" id="J4E-Wk-eMy"/>
+                <outlet property="middleView" destination="EXK-Md-oWD" id="Yeb-2d-xt8"/>
+                <outlet property="smallScrollView" destination="Y1V-AC-NNv" id="FD8-qu-uFP"/>
             </connections>
             <point key="canvasLocation" x="-1792.8" y="-590.10494752623697"/>
         </view>
     </objects>
-    <resources>
-        <image name="ORIimage" width="400" height="400"/>
-    </resources>
 </document>

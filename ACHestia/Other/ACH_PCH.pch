@@ -19,6 +19,6 @@
 
 //import
 #import "UIImage+ACH.h"
-#import "UIView+frame.h"
+#import "UIView+Category.h"
 
 #endif /* ACH_PCH_pch */

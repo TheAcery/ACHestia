@@ -4,9 +4,13 @@
 //
 //  Created by Acery on 2018/10/15.
 //  Copyright © 2018年 Acery. All rights reserved.
-//  这个view描述了ACHFirstViewTableView位于tableView头部的视图，随着tablrView的滚动而滚动
 
-#warning TODO 重写
+
+/**
+ * 这个view描述了ACHFirstViewTableView位于tableView头部的视图，随着tablrView的滚动而滚动
+ * 在对这个view的subView创建了占位视图之后，每个视图都有自己的逻辑要处理，可能需要创建代理，但是我们希望他分开管理这些视图
+ * 为了分开管理这些视图的逻辑，我为他们创建了独立的代理对象，同时在类中创建了强引用的指针指向他们，保证了在这个view存在的时候代理对象一定存在。
+ */
 
 
 /**
@@ -21,38 +25,50 @@
 #import "ACHFastView.h"
 
 //view
-#import "ACHSmallScrollViewCell.h"
+#import "ACHFactViewBigScrollView.h"
+#import "ACHFastViewJumpView.h"
+#import "ACHFastViewMiddleView.h"
+#import "ACHFastViewSmallScrollView.h"
+#import "ACHFastViewSmallScrollViewCell.h"
 
 //item
 #import "ACHSmallScrollViewCellItem.h"
 
-@interface ACHFastView () <UIScrollViewDelegate>
+//delegate
+#import "ACHFactViewBigScrollViewDelegate.h"
+#import "ACHFastViewMiddleViewDelegate.h"
 
 
-#warning TODO  整理代码
-
-#pragma mark - scrollViews
-/****************************************************************************************************************/
-
-@property (weak, nonatomic) IBOutlet UIScrollView *bigScrollView;
-@property (weak, nonatomic) IBOutlet UIScrollView *smallScrollView;
-@property (weak, nonatomic) IBOutlet UIScrollView *lineScrollView;
-#pragma mark - buttons
-/****************************************************************************************************************/
-
-@property (weak, nonatomic) IBOutlet UIButton *bigButton1;
-@property (weak, nonatomic) IBOutlet UIButton *bigButton2;
-@property (weak, nonatomic) IBOutlet UIButton *bigButton3;
-@property (weak, nonatomic) IBOutlet UIButton *bigButton4;
+@interface ACHFastView () <UIScrollViewDelegate,ACHFastViewJumpViewDelegate>
 
 
-@property (weak, nonatomic) IBOutlet UIButton *samllButton1;
-@property (weak, nonatomic) IBOutlet UIButton *samllButton2;
-@property (weak, nonatomic) IBOutlet UIButton *samllButton3;
-@property (weak, nonatomic) IBOutlet UIButton *samllButton4;
+/**最大的滚动占位视图*/
+@property (weak, nonatomic) IBOutlet UIView *bigView;
 
-#pragma mark - inti funs
-/****************************************************************************************************************/
+/**中间跳转按钮的占位视图*/
+@property (weak, nonatomic) IBOutlet UIView *jumpView;
+
+/**中间的滚动占位视图*/
+@property (weak, nonatomic) IBOutlet UIView *middleView;
+
+/**下面小的滚动占位视图*/
+@property (weak, nonatomic) IBOutlet UIView *smallScrollView;
+
+
+//REALLY VIEWS
+@property (nonatomic, weak) ACHFactViewBigScrollView *reBigView;
+@property (nonatomic, weak) ACHFastViewJumpView *reJumpView;
+@property (nonatomic, weak) ACHFastViewMiddleView *reMiddleView;
+@property (nonatomic, weak) ACHFastViewSmallScrollView *reSmallScrollView;
+
+//OTHER
+@property (nonatomic, weak) NSTimer *bigScrollViewAutoScrollTimer;
+
+
+//delegate
+@property (nonatomic, strong) ACHFactViewBigScrollViewDelegate *bigScrollViewDelegate;
+@property (nonatomic, strong) ACHFastViewMiddleViewDelegate *middleViewDelegate;
+
 
 @property (nonatomic, weak) NSTimer *timer;
 
@@ -68,11 +84,8 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    /**设置bigScrollView*/
-    [self setUpBigScrollerViewAndScroll];
-    /**设置smallScrollView*/
-    [self setUpsSmallScrollerViewAndScroll];
-
+   
+    [self setAllSubViews];
 }
 
 
@@ -81,152 +94,183 @@
     [super layoutSubviews];
     
 }
-                          
+
+#pragma mark - setSubViews
+/****************************************************************************************************************/
+
+-(void)setAllSubViews
+{
+    //bigView
+   
+    [self setUpbBigView];
+    
+    //jumpView
+    
+    [self setUpJumpView];
+    
+    //middleView
+    
+   
+    [self setUpMiddleView];
+    
+    //smallView
+    
+    [self setUpSmallScrollView];
+}
+
 #pragma mark - funs
 /****************************************************************************************************************/
 
-/**bigScrollView*/
-
--(void)makeBigScrollViewNetPage
+//setUpbigView
+-(void)setUpbBigView
 {
-    CGFloat bigScrollViewContentOffsetX = self.bigScrollView.contentOffset.x;
-    CGFloat nextPage = 0.0;
-    
-    if (bigScrollViewContentOffsetX  >= self.bigScrollView.frame.size.width * 3)
-    {
-        nextPage = 0.0;
-    }
-    else
-    {
-        nextPage = bigScrollViewContentOffsetX + self.bigScrollView.frame.size.width;
-    }
-    
-    [self.bigScrollView setContentOffset:CGPointMake(nextPage, 0) animated:YES];
-}
-
--(void)setUpBigScrollerViewAndScroll
-{
-    
-    //重新确定大小
-    self.bigScrollView.bounds = CGRectMake(0, 0, SCRENNBOUNDS.size.width, self.bigScrollView.ACheight);
-    /**让bigScrollView自动滚动*/
-    
-    //set bigScrollView delegate
-    self.bigScrollView.delegate = self;
-    
-    //add image to bigScrollView
-    for (int i = 0; i < 4; i++)
-    {
-        UIImageView *imageView =
-        ({
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(i * self.bigScrollView.frame.size.width, 0, self.bigScrollView.frame.size.width, self.bigScrollView.frame.size.height)];
-            imageView.image = [UIImage imageNamed:@"ORIimage"];
-            imageView;
-        });
-        
-        [self.bigScrollView addSubview:imageView];
-    }
-    self.bigScrollView.contentSize = CGSizeMake(self.bigScrollView.frame.size.width * 4, 0);
-    
-    // init timer
-    [self initBigScrollViewTimer];
-    
-    
-    /**判断在用户拖动的时候停止自动滚动，在停止滚动的时候开启自动滚动*/
-}
-
--(void)initBigScrollViewTimer
-{
-    // init timer
-    NSTimer *timer =
+    ACHFactViewBigScrollView *bigScrollView =
     ({
-        NSTimer *timer = [[NSTimer alloc]initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0] interval:2.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
-            [self makeBigScrollViewNetPage];
-        }];
-        self.timer = timer;
-        timer;
+        //创建子视图和ACHFactViewBigScrollView对象
+        NSMutableArray *views = [NSMutableArray array];
+        for (int subViews = 0; subViews < 4; subViews++)
+        {
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, self.bigView.ACheight)];
+            imageView.image = [UIImage imageNamed:@"ORIimage"];
+            
+            [views addObject:imageView];
+        }
+        
+        ACHFactViewBigScrollView *bigScrollView = [ACHFactViewBigScrollView scrollViewWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, self.bigView.ACheight) Views:views];
+        
+        self.reBigView = bigScrollView;
+        bigScrollView;
     });
     
-    NSRunLoop *runloop = [NSRunLoop mainRunLoop];
-    [runloop addTimer:timer forMode:NSRunLoopCommonModes];
+    [self.bigView addSubview:bigScrollView];
+    //开启自动滚动
+    [self.reBigView scrollViewAutoScroll:2.0];
+    
+    //设置代理
+    self.bigScrollViewDelegate = [[ACHFactViewBigScrollViewDelegate alloc]init];
+    bigScrollView.delegate = self.bigScrollViewDelegate;
 }
 
-/**lineScrollView*/
 
+//setUpjumpView
 
-
-
-/**smallScrollView*/
-
-
-
-
--(void)setUpsSmallScrollerViewAndScroll
+-(void)setUpJumpView
 {
+    ACHFastViewJumpView *jumpView =
+    ({
+        ACHFastViewJumpView *jumpView = [ACHFastViewJumpView fastViewJumpView];
+        jumpView.frame = self.jumpView.bounds;
+        jumpView.delegate = self;
+        jumpView;
+    });
     
-    //重新确定大小
-    self.smallScrollView.bounds = CGRectMake(0, 0, SCRENNBOUNDS.size.width, self.smallScrollView.ACheight);
+    [self.jumpView addSubview:jumpView];
     
-    for (int i = 0; i < 5; i++)
-    {
-        //init items
-        ACHSmallScrollViewCellItem *item =
-        ({
+    //抛出事件，这个方法从ACHFastViewJumpView代理抛到ACHFastView，然后传递到ACHFirstViewTableVC
+}
+
+//setUpMiddleView
+
+-(void)setUpMiddleView
+{
+    ACHFastViewMiddleView *middleView =
+    ({
+        
+        ACHFastViewMiddleView *middleView = [[ACHFastViewMiddleView alloc]init];
+        middleView.frame = self.middleView.bounds;
+        
+        middleView;
+    });
+    
+    [self.middleView addSubview:middleView];
+    
+    //因为这个视图需要自动滚动，所以也需要设置代理，但是不需要把f事件抛出
+    self.middleViewDelegate = [[ACHFastViewMiddleViewDelegate alloc]init];
+//    middleView.
+}
+
+//setUpSmallScrollView
+-(void)setUpSmallScrollView
+{
+    ACHFastViewSmallScrollView *smallView =
+    ({
+        
+        //create all cells
+        NSMutableArray *views = [NSMutableArray array];
+        
+        for (int count = 0; count < 4; count ++)
+        {
+            
             ACHSmallScrollViewCellItem *item = [[ACHSmallScrollViewCellItem alloc]init];
             item.imageName = @"ORIimage";
-            item.title = @"川味观";
+            item.title = @"外婆家";
+            item.distance = @"最近一家店距你2.1km";
             item.discount = @"5.0";
-            item.distance = @"最近一家店距你1.3km";
-            item;
-        });
+            
+            ACHFastViewSmallScrollViewCell *cell = [ACHFastViewSmallScrollViewCell smallScrollViewCellWithItem:item];
+            cell.frame = CGRectMake(10, 0, SCRENNBOUNDS.size.width - 20, cell.ACheight);
+            
+            //增加contentView来保证ACHFastViewSmallScrollViewCell始终保持缩进
+            UIView *contentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, cell.ACheight)];
+            contentView.backgroundColor = UIColor.yellowColor;
+            [contentView addSubview:cell];
+            
+            [views addObject:contentView];
+        }
         
-        //cellView
-        ACHSmallScrollViewCell *cell =
-        ({
-            ACHSmallScrollViewCell *cell = [ACHSmallScrollViewCell smallScrollViewCellWithItem:item];
-            cell.frame = CGRectMake((self.smallScrollView.frame.size.width * i) + 10, 0, self.smallScrollView.frame.size.width - 20, cell.frame.size.height);
-            cell;
-        });
-        
-        //add to smallScrollView
-        [self.smallScrollView addSubview:cell];
-    }
+        //create ACHFastViewSmallScrollView object
+        ACHFastViewSmallScrollView *smallView = [[ACHFastViewSmallScrollView alloc]init];
+        smallView.views = views;
+        smallView.frame = CGRectMake(0, 0, self.smallScrollView.ACwidth, self.smallScrollView.ACheight);
+        smallView;
+    });
     
-    self.smallScrollView.contentSize = CGSizeMake(self.smallScrollView.frame.size.width * 5, 0);
+    [self.smallScrollView addSubview:smallView];
+    //设置代理，监听事件
+
+    
 }
 
-
-
-
-#pragma mark - UIScrollViewDelegate
+#pragma mark - ACHFastViewJumpViewDelegate
 /****************************************************************************************************************/
 
-//在用户拖拽bigScrollView停止自动滚动
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    //停止定时器
-    [self.timer invalidate];
-    NSLog(@"stop");
-}
+/**
+ * 继续传递事件到控制器
+ */
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+/**在FirstButton被点击到时候调用*/
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view FirstButtonClip:(ACHButton *)btn
 {
-   
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    //开启计时器
-    if (![scrollView isDragging])
+    if ([self.delegate respondsToSelector:@selector(didFastViewJumpView:FirstButtonClip:)])
     {
-        [self initBigScrollViewTimer];
-        NSLog(@"start");
+        [self.delegate didFastViewJumpView:view FirstButtonClip:btn];
     }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+/**在CutDownButton被点击到时候调用*/
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view CutDownButtonClip:(ACHButton *)btn
 {
-
+    if ([self.delegate respondsToSelector:@selector(didFastViewJumpView:CutDownButtonClip:)])
+    {
+        [self.delegate didFastViewJumpView:view CutDownButtonClip:btn];
+    }
 }
 
+/**在BrandButton被点击到时候调用*/
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view BrandButtonClip:(ACHButton *)btn
+{
+    if ([self.delegate respondsToSelector:@selector(didFastViewJumpView:BrandButtonClip:)])
+    {
+        [self.delegate didFastViewJumpView:view BrandButtonClip:btn];
+    }
+}
+
+/**在DelicacyButton被点击到时候调用*/
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view DelicacyButtonClip:(ACHButton *)btn
+{
+    if ([self.delegate respondsToSelector:@selector(didFastViewJumpView:DelicacyButtonClip:)])
+    {
+        [self.delegate didFastViewJumpView:view DelicacyButtonClip:btn];
+    }
+}
 @end

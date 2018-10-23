@@ -105,13 +105,14 @@
 
 #pragma mark - ViewLoad funs
 /****************************************************************************************************************/
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
+    
+    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
     [super viewDidLoad];
     //setUp
     [self setUp];
     //set subViews
-    
-    
 }
 
 
@@ -119,7 +120,8 @@
 {
     [super viewDidAppear:animated];
     //计算tableSectionHeaderView 和 realSectionHeaderView交替的差值
-     HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y - HeaderBarHeight;
+    HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y - HeaderBarHeight;
+    
 }
 
 #pragma mark - lazy init
@@ -226,7 +228,7 @@
         sectionHeaderView.delegate = self;
         
         self.realSectionHeaderView = sectionHeaderView;
-        sectionHeaderView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, 50);
+//        sectionHeaderView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, 50);
 
         return sectionHeaderView;
     }

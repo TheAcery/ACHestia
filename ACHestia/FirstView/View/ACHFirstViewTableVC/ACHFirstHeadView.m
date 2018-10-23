@@ -19,7 +19,6 @@
 {
     [super awakeFromNib];
     
-     self.bounds = CGRectMake(0, 0, SCRENNBOUNDS.size.width, self.ACheight);
 }
 
 @end

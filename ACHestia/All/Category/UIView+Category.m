@@ -6,11 +6,11 @@
 //  Copyright © 2018年 Acery. All rights reserved.
 //  UIView的l分类
 
-#import "UIView+frame.h"
+#import "UIView+Category.h"
 
-@implementation UIView (frame)
+@implementation UIView (Category)
 
-#pragma mark - seting funs
+#pragma mark - frame -- setting funs
 /****************************************************************************************************************/
 
 - (void)setACx:(CGFloat)ACx
@@ -46,7 +46,7 @@
 }
 
 
-#pragma mark - getting funs
+#pragma mark - frame -- getting funs
 /****************************************************************************************************************/
 
 - (CGFloat)ACx
@@ -69,4 +69,14 @@
     return self.frame.size.height;
 }
 
+
+
+#pragma mark - view copy
+/****************************************************************************************************************/
+
+- (UIView*)copyFromView:(UIView*)view
+{
+    NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:view];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
+}
 @end
