@@ -10,7 +10,7 @@
 
 @interface ACHFirstViewNAVCBar ()
 
-@property (nonatomic, strong) NSString *title;
+
 
 @property (nonatomic, weak) UINavigationItem *item;
 
@@ -95,5 +95,11 @@
 {
     _rightItems = rightItems;
     self.item.rightBarButtonItems = rightItems;
+}
+
+- (void)setTitle:(NSString *)title
+{
+    _title = title;
+    self.item.title = title;
 }
 @end

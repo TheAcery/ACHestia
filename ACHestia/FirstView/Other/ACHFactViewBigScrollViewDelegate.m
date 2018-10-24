@@ -12,19 +12,19 @@
 
 @implementation ACHFactViewBigScrollViewDelegate
 
-- (void)scrollViewWillBeginDragging:(ACHScrollView *)scrollView;
-{
-    //在开始拖拽的时候结束滚动
-    [scrollView scrollViewCancelAutoScroll];
-}
-
-- (void)scrollViewDidEndDecelerating:(ACHScrollView *)scrollView;
-{
-    if (!scrollView.dragging)
-    {
-        //在结束拖拽同时停止滚动个的时候结束滚动
-        [scrollView scrollViewAutoScroll:2.0];
-    }
-}
+//- (void)scrollViewWillBeginDragging:(ACHScrollView *)scrollView;
+//{
+//    //在开始拖拽的时候结束滚动
+//    [scrollView scrollViewCancelAutoScroll];
+//}
+//
+//- (void)scrollViewDidEndDecelerating:(ACHScrollView *)scrollView;
+//{
+//    if (!scrollView.dragging)
+//    {
+//        //在结束拖拽同时停止滚动个的时候结束滚动
+//        [scrollView scrollViewAutoScroll:2.0];
+//    }
+//}
 
 @end

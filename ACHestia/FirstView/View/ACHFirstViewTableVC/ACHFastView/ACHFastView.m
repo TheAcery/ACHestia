@@ -39,7 +39,7 @@
 #import "ACHFastViewMiddleViewDelegate.h"
 
 
-@interface ACHFastView () <UIScrollViewDelegate,ACHFastViewJumpViewDelegate>
+@interface ACHFastView () <UIScrollViewDelegate,ACHFastViewJumpViewDelegate,UIScrollViewDelegate,ACHScrollViewLoopScroDelegate>
 
 
 /**最大的滚动占位视图*/
@@ -62,7 +62,7 @@
 @property (nonatomic, weak) ACHFastViewSmallScrollView *reSmallScrollView;
 
 //OTHER
-@property (nonatomic, weak) NSTimer *bigScrollViewAutoScrollTimer;
+@property (nonatomic, weak) NSTimer *scrollViewAutoScrollTimer;
 
 
 //delegate
@@ -144,11 +144,11 @@
     
     [self.bigView addSubview:bigScrollView];
     //开启自动滚动
-    [self.reBigView scrollViewAutoScroll:2.0];
+    [self scrollViewAutoScroll:2.0];
     
     //设置代理
-    self.bigScrollViewDelegate = [[ACHFactViewBigScrollViewDelegate alloc]init];
-    bigScrollView.delegate = self.bigScrollViewDelegate;
+    bigScrollView.delegate = self;
+    bigScrollView.loopScrollDelegate = self;
 }
 
 
@@ -198,7 +198,7 @@
         //create all cells
         NSMutableArray *views = [NSMutableArray array];
         
-        for (int count = 0; count < 4; count ++)
+        for (NSInteger count = 0; count < 6; count ++)
         {
             
             ACHSmallScrollViewCellItem *item = [[ACHSmallScrollViewCellItem alloc]init];
@@ -213,6 +213,16 @@
             //增加contentView来保证ACHFastViewSmallScrollViewCell始终保持缩进
             UIView *contentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, cell.ACheight)];
             contentView.backgroundColor = UIColor.yellowColor;
+            
+            //debug
+            UILabel *page = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+            
+            NSInteger pageNumber = count + 1;
+            page.text = [NSString stringWithFormat:@"%zd",pageNumber];
+            page.textColor = UIColor.blackColor;
+            
+            [contentView addSubview:page];
+            
             [contentView addSubview:cell];
             
             [views addObject:contentView];
@@ -230,6 +240,28 @@
 
     
 }
+
+//开启bigScrollView的自动滚动
+-(void)scrollViewAutoScroll:(CGFloat)timerInterval
+{
+    
+    NSTimer *timer = [NSTimer timerWithTimeInterval:timerInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
+        [self.reBigView pageIsUp:YES];
+    }];
+    
+    
+    
+    self.scrollViewAutoScrollTimer = timer;
+    
+    [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
+//关闭bigScrollView的自动滚动
+-(void)scrollViewCancelAutoScroll
+{
+    [self.scrollViewAutoScrollTimer invalidate];
+}
+
 
 #pragma mark - ACHFastViewJumpViewDelegate
 /****************************************************************************************************************/
@@ -272,5 +304,42 @@
     {
         [self.delegate didFastViewJumpView:view DelicacyButtonClip:btn];
     }
+}
+
+#pragma mark - UIScrollViewDelegate
+/****************************************************************************************************************/
+
+/**
+ * 监听bigScrollView的滚动，判断定时器的开始和结束
+ */
+
+- (void)scrollViewWillBeginDragging:(ACHScrollView *)scrollView;
+{
+    //在开始拖拽的时候结束滚动
+    [self scrollViewCancelAutoScroll];
+}
+
+- (void)scrollViewDidEndDecelerating:(ACHScrollView *)scrollView;
+{
+    
+    if (!scrollView.dragging)
+    {
+        //在结束拖拽同时停止滚动个的时候结束滚动
+        [self scrollViewAutoScroll:2.0];
+    }
+    
+    
+}
+
+#pragma mark - ACHScrollViewLoopScroDelegate
+/****************************************************************************************************************/
+
+
+/**
+ * 监听当前自动滚动到pageCount
+ */
+-(void)didACHScrollView:(ACHScrollView *)ACHScrollView ScrollAtViewWithIndex:(NSInteger)index
+{
+    
 }
 @end

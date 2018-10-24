@@ -11,7 +11,7 @@
 @class ACHScrollView;
 
 NS_ASSUME_NONNULL_BEGIN
-@protocol ACHScrollViewDelegate <NSObject>
+@protocol ACHScrollViewLoopScroDelegate <NSObject>
 
 -(void)didACHScrollView:(ACHScrollView *)ACHScrollView ScrollAtViewWithIndex:(NSInteger)index;
 
@@ -22,18 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(instancetype)scrollViewWithFrame:(CGRect)frame Views:(NSArray<UIView *> *)views;
 
-@property (nonatomic, weak) id <ACHScrollViewDelegate> loopScrollDelegate;
+@property (nonatomic, weak) id <ACHScrollViewLoopScroDelegate> loopScrollDelegate;
 
 -(void)pageIsUp:(BOOL)up;
 
 @property (nonatomic, strong) NSArray<UIView *> *views;
 
 
-/**开启或者继续自动滚动*/
--(void)scrollViewAutoScroll:(CGFloat)timerInterval;
-
-/**停止自动滚动*/
--(void)scrollViewCancelAutoScroll;
+///**开启或者继续自动滚动*/
+//-(void)scrollViewAutoScroll:(CGFloat)timerInterval;
+//
+///**停止自动滚动*/
+//-(void)scrollViewCancelAutoScroll;
 
 @end
 

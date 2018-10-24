@@ -18,6 +18,18 @@
 //controller
 #import "ACHFirstViewController.h"
 
+/**新手界面*/
+#import "ACHFastNewHandVC.h"
+
+/**砍价界面*/
+#import "ACHCutDownVC.h"
+
+/**品牌界面*/
+#import "ACHBrandVC.h"
+
+#pragma mark - define
+/****************************************************************************************************************/
+
 #define FASTVIEWHIGHT 300.0
 #define RowHeight 100
 
@@ -61,8 +73,6 @@
     [super viewDidLoad];
 
     [self setUpSubViews];
-    
-    
 
 }
 
@@ -124,7 +134,6 @@
     
 }
 
-
 #pragma mark - UIScrollViewDelegate
 /****************************************************************************************************************/
 
@@ -182,12 +191,10 @@
         headView;
     });
     
-    
     [self.view addSubview:tableView];
     [self.view addSubview:headView];
     
 }
-
 
 #pragma mark - ACHFastViewDelegate
 /****************************************************************************************************************/
@@ -198,26 +205,35 @@
 
 -(void)didFastViewJumpView:(ACHFastViewJumpView *)view FirstButtonClip:(ACHButton *)btn
 {
-    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+    //跳转到新手界面
+    ACHFastNewHandVC *newHandVC = [[ACHFastNewHandVC alloc]init];
+    [self.navigationController pushViewController:newHandVC animated:YES];
 }
-
 /**当FastViewJumpView的FirstButton被点击时调用*/
--(void)didFastViewJumpView:(ACHFastViewJumpView *)view CutDownButtonClip:(ACHButton *)btn;
+-(void)didFastViewJumpView:(ACHFastViewJumpView *)view CutDownButtonClip:(ACHButton *)btn
 {
-    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+    
+    //跳转到砍价界面
+    ACHCutDownVC *cutDownVC = [[ACHCutDownVC alloc]init];
+    
+    [self.navigationController pushViewController:cutDownVC animated:YES];
 }
 
 
 /**当FastViewJumpView的FirstButton被点击时调用*/
 -(void)didFastViewJumpView:(ACHFastViewJumpView *)view BrandButtonClip:(ACHButton *)btn
 {
-    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+    //跳转到品牌界面
+    ACHBrandVC *brandVC = [[ACHBrandVC alloc]init];
+    
+    [self.navigationController pushViewController:brandVC animated:YES];
 }
 
 /**当FastViewJumpView的FirstButton被点击时调用*/
 -(void)didFastViewJumpView:(ACHFastViewJumpView *)view DelicacyButtonClip:(ACHButton *)btn
 {
-    NSLog(@"调用对象%s - 行数：%d",__func__,__LINE__);
+    //跳转到有好菜
+    [self.tabBarController setSelectedIndex:1];
 }
 
 @end

@@ -156,45 +156,22 @@
 
    __block BOOL animtateFinish = YES;
     
-    
-    
     if (animtateFinish && self.window)//
     {
-//        NSLog(@"timer ---- %@",self.scrollViewAutoScrollTimer);
         [UIView animateWithDuration:0.3 animations:^{
             animtateFinish = NO;
             self.contentOffset = up ? CGPointMake(self.contentOffset.x + self.ACwidth, 0) : CGPointMake(self.contentOffset.x - self.ACwidth, 0);
         } completion:^(BOOL finished) {
             animtateFinish = YES;
+            if ([self.loopScrollDelegate respondsToSelector:@selector(didACHScrollView:ScrollAtViewWithIndex:)])
+            {
+                [self.loopScrollDelegate didACHScrollView:self ScrollAtViewWithIndex:self.contentOffset.x / self.ACwidth];
+            }
         }];
     }
     
 }
 
--(void)scrollViewAutoScroll:(CGFloat)timerInterval
-{
-    
-    NSTimer *timer = [NSTimer timerWithTimeInterval:timerInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
-        [self pageIsUp:YES];
-//        NSLog(@"timer --- %@",timer);
-    }];
-    
-    
-    
-    self.scrollViewAutoScrollTimer = timer;
-    
-    [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSRunLoopCommonModes];
-}
-
--(void)createScrollViewAutoScrollTimer
-{
-   
-}
-
--(void)scrollViewCancelAutoScroll
-{
-    [self.scrollViewAutoScrollTimer invalidate];
-}
 
 
 #pragma mark - setting funs

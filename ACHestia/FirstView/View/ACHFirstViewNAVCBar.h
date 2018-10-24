@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(instancetype)FirstViewNAVCBarWithTitle:(NSString *)title;
 
+@property (nonatomic, strong) NSString *title;
+
 #pragma mark - items
 /****************************************************************************************************************/
 
