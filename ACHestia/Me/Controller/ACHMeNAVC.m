@@ -8,6 +8,8 @@
 
 #import "ACHMeNAVC.h"
 
+#import "ACHMeVC.h"
+
 @interface ACHMeNAVC ()
 
 @end
@@ -17,7 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
+    ACHMeVC *vc = [[ACHMeVC alloc]init];
+    
+    [self pushViewController:vc animated:YES];
 }
 
 - (instancetype)init

@@ -13,6 +13,9 @@
 #import "ACHDelicacyTableSectionHeaderView.h"
 #import "ACHDelicacyTableVCHeadView.h"
 
+//viewController
+#import "ACHDelicacyDetailVC.h"
+
 
 //item
 #import "ACHDelicacyTableVCCellItem.h"
@@ -23,11 +26,15 @@
 #define RowHeight 250
 #define TableViewOtherHeaderHeight 20
 
+
 @interface ACHDelicacyTableVC () <UITableViewDelegate,UITableViewDataSource,ACHDelicacyTableSectionHeaderViewDelegate>
 
-@property (nonatomic, strong) NSArray<NSArray *> *group;
+
+@property (nonatomic, strong) NSArray<NSArray<ACHDelicacyTableVCCellItem *> *> *group;
 
 @property (nonatomic, weak) ACHDelicacyTableSectionHeaderView *tableSectionHeaderView;
+
+@property (nonatomic, weak) UIView *tableSectionHeaderViewContentView;
 
 @property (nonatomic, weak) ACHDelicacyTableSectionHeaderView *realSectionHeaderView;
 
@@ -44,8 +51,8 @@
     NSString *Identifier;
     
     CGFloat HeaderInSectionOne;
-    CGFloat HeaderInSectionTwo;
-    CGFloat HeaderInSectionThree;
+//    CGFloat HeaderInSectionTwo;
+//    CGFloat HeaderInSectionThree;
 }
 
 #pragma mark - lazy init
@@ -67,6 +74,7 @@
         headView.frame = tableSectioncontainerView.bounds;
         [tableSectioncontainerView addSubview:headView];
         
+        self.tableSectionHeaderViewContentView = tableSectioncontainerView;
         _tableSectionHeaderView = headView;
     }
     
@@ -105,14 +113,16 @@
 
 #pragma mark - ViewLoad funs
 /****************************************************************************************************************/
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     //setUp
     [self setUp];
     //set subViews
+    
+    
 }
-
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -120,6 +130,7 @@
     //计算tableSectionHeaderView 和 realSectionHeaderView交替的差值
     HeaderInSectionOne = [self.tableView rectForHeaderInSection:0].origin.y - HeaderBarHeight;
     
+   
 }
 
 #pragma mark - lazy init
@@ -171,6 +182,8 @@
 #pragma mark - funs
 /****************************************************************************************************************/
 
+/**初始化视图*/
+
 -(void)setUp
 {
     Identifier = @"cell";
@@ -214,7 +227,7 @@
 }
 
 
-#pragma mark - Delegate
+#pragma mark - UITableViewDelegate
 /****************************************************************************************************************/
 
 
@@ -226,8 +239,6 @@
         sectionHeaderView.delegate = self;
         
         self.realSectionHeaderView = sectionHeaderView;
-//        sectionHeaderView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, 50);
-
         return sectionHeaderView;
     }
     
@@ -257,15 +268,26 @@
     return 0.0;
 }
 
+#pragma mark - UIScrollViewDelegate
+/****************************************************************************************************************/
 
 
+/**
+ * 在tableView滚动时，判断tableSectionHeaderView和realSectionHeaderView时候重合，以及改变tableSectionHeaderView的indexView的位置
+ * 在tableSectionHeaderView和realSectionHeaderView不需要重合的时候隐藏tableSectionHeaderView的的父视图，重合的时候让tableSectionHeaderView在realSectionHeaderView上面（覆盖）
+ */
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
 
     if (scrollView.contentOffset.y >= HeaderInSectionOne)
     {
         
-        self.tableSectionHeaderView.alpha = 1.0;
+        /**
+         * 如果单独隐藏tableSectionHeaderView在tableSectionHeaderView和realSectionHeaderView即将重合的时候它的父视图将会挡住realSectionHeaderView的点击事件。
+         * 所以需要隐藏它的父视图tableSectionHeaderViewContentView。
+         */
+        
+        self.tableSectionHeaderViewContentView.alpha = 1.0;
         
         CGRect tableViewHeadRect = [self.view convertRect:CGRectMake(0, HeaderBarHeight + TableViewHeaderHeight, SCRENNBOUNDS.size.width, RowHeight) toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathsForRowsInRect:tableViewHeadRect].firstObject;
@@ -273,23 +295,27 @@
         
         [self.tableSectionHeaderView buttonScroll:section];
         
-        if (section == 0)//复原真实的headerView //让两个headViewa保持一致
+        if (section == 0)//复原realSectionHeaderView //让两个headViewa保持一致
         {
             [self.realSectionHeaderView buttonScroll:0];
         }
         
-
     }
     else
     {
-        self.tableSectionHeaderView.alpha = 0.0;
+        self.tableSectionHeaderViewContentView.alpha = 0.0;
     }
 }
 
+/**
+ * 点击cell的时候跳转到其他控制器
+ */
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIViewController *vc = [[UIViewController alloc]init];
-    vc.view.backgroundColor = UIColor.redColor;
+    ACHDelicacyDetailVC *vc = [[ACHDelicacyDetailVC alloc]init];
+    
+   
     
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -298,13 +324,19 @@
 #pragma mark - ACHDelicacyTableSectionHeaderViewDelegate
 /****************************************************************************************************************/
 
+/**
+ * 当SectionHeaderView上的button被点击时调用，在这个方法中让tableView滚动到指定的位置
+ */
 
 - (void)didDelicacyTableSectionHeaderViewButtonClip:(ACHButton *)btn WithIndex:(NSInteger)index
 {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:index];
     
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - (TableViewHeaderHeight - TableViewOtherHeaderHeight) )  animated:NO];
+    
+    if (index != 0) {
+        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - (TableViewHeaderHeight - TableViewOtherHeaderHeight) )  animated:NO];
+    }
 }
 
 @end

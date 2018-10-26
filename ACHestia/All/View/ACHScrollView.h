@@ -28,13 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSArray<UIView *> *views;
 
-
-///**开启或者继续自动滚动*/
-//-(void)scrollViewAutoScroll:(CGFloat)timerInterval;
-//
-///**停止自动滚动*/
-//-(void)scrollViewCancelAutoScroll;
-
 @end
 
 NS_ASSUME_NONNULL_END

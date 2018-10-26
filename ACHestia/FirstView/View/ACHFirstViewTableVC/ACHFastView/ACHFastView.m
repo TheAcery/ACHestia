@@ -34,10 +34,6 @@
 //item
 #import "ACHSmallScrollViewCellItem.h"
 
-//delegate
-#import "ACHFactViewBigScrollViewDelegate.h"
-#import "ACHFastViewMiddleViewDelegate.h"
-
 
 @interface ACHFastView () <UIScrollViewDelegate,ACHFastViewJumpViewDelegate,UIScrollViewDelegate,ACHScrollViewLoopScroDelegate>
 
@@ -64,13 +60,6 @@
 //OTHER
 @property (nonatomic, weak) NSTimer *scrollViewAutoScrollTimer;
 
-
-//delegate
-@property (nonatomic, strong) ACHFactViewBigScrollViewDelegate *bigScrollViewDelegate;
-@property (nonatomic, strong) ACHFastViewMiddleViewDelegate *middleViewDelegate;
-
-
-@property (nonatomic, weak) NSTimer *timer;
 
 @end
 
@@ -184,9 +173,7 @@
     
     [self.middleView addSubview:middleView];
     
-    //因为这个视图需要自动滚动，所以也需要设置代理，但是不需要把f事件抛出
-    self.middleViewDelegate = [[ACHFastViewMiddleViewDelegate alloc]init];
-//    middleView.
+    //因为这个视图需要自动滚动，所以也需要设置代理，但是不需要把事件抛出
 }
 
 //setUpSmallScrollView

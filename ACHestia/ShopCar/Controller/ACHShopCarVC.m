@@ -6,6 +6,10 @@
 //  Copyright © 2018年 Acery. All rights reserved.
 //
 
+/**
+ * 使用XIb去描述这个控制器的视图
+ */
+
 #import "ACHShopCarVC.h"
 
 //view
@@ -14,7 +18,6 @@
 
 @interface ACHShopCarVC () <UIScrollViewDelegate>
 
-@property (nonatomic, weak) ACHScrollView *scrollView;
 
 @end
 
@@ -24,54 +27,10 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = UIColor.whiteColor;
+//    self.view.backgroundColor = UIColor.whiteColor;
     
-    
-    ACHScrollView *scrollView =
-    ({
-        NSMutableArray *views = [NSMutableArray array];
-        
-        UIView *view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
-        view1.backgroundColor = UIColor.redColor;
-        [views addObject:view1];
-        
-        UIView *view2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
-        view2.backgroundColor = UIColor.blueColor;
-        [views addObject:view2];
-        
-        UIView *view3 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
-        view3.backgroundColor = UIColor.blackColor;
-        [views addObject:view3];
-        
-        UIView *view4 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
-        view4.backgroundColor = UIColor.orangeColor;
-        [views addObject:view4];
-        
-        UIView *view5 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 375, 200)];
-        view5.backgroundColor = UIColor.purpleColor;
-        [views addObject:view5];
-        
-        ACHScrollView *scrollView = [ACHScrollView scrollViewWithFrame:CGRectMake(0, 200, 375, 200) Views:views];
-        self.scrollView = scrollView;
-        scrollView.delegate = self;
-        scrollView;
-    });
-    
-    
-    [self.view addSubview:scrollView];
-    
-    UIButton *up = [[UIButton alloc]initWithFrame:CGRectMake(0, 500, 50, 50)];
-    [up setTitle:@"up" forState:UIControlStateNormal];
-    [up setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [up addTarget:self action:@selector(up) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *down = [[UIButton alloc]initWithFrame:CGRectMake(200, 500, 50, 50)];
-    [down setTitle:@"down" forState:UIControlStateNormal];
-    [down setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [down addTarget:self action:@selector(down) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.title = @"购物车";
    
-    [self.view addSubview:up];
-    [self.view addSubview:down];
 }
 
 
@@ -79,22 +38,5 @@
 /****************************************************************************************************************/
 
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
-{
-    NSInteger index = scrollView.contentOffset.x / scrollView.ACwidth;
-    NSLog(@"index --- %zd",index);
-}
-
--(void)up
-{
-
-    [self.scrollView pageIsUp:YES];
-
-}
-
--(void)down
-{
-    [self.scrollView pageIsUp:NO];
-}
 
 @end

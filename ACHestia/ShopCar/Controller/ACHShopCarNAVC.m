@@ -24,7 +24,7 @@
     
     ACHShopCarVC *vc = [[ACHShopCarVC alloc]init];
    
-    [self addChildViewController:vc];
+    [self pushViewController:vc animated:YES];
     
 }
 

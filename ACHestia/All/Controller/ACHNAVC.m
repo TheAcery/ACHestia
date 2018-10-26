@@ -8,11 +8,38 @@
 
 #import "ACHNAVC.h"
 
+#import "ACHButton.h"
+
 @interface ACHNAVC ()
 
 @end
 
 @implementation ACHNAVC
+
+
+
+#pragma mark - view load funs
+/****************************************************************************************************************/
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    //在viewDidAppear中修改背景图片
+    
+    //    [self.navigationBar setShadowImage:[UIImage alloc]];
+    
+    [self setBarBKColor:UIColor.whiteColor];
+    
+    
+}
+
+
+#pragma mark - funs
+/****************************************************************************************************************/
+
+/**
+ * 设置tabBar的属性
+ */
 
 -(void)setUpNAVCWithTitle:(NSString *)title ImageName:(NSString *)imageName SelectedImage:(NSString *)selectedImage
 {
@@ -26,13 +53,15 @@
     
     [self.tabBarItem setImage:[UIImage UNRenderimageNamed:imageName]];
     [self.tabBarItem setSelectedImage:[UIImage UNRenderimageNamed:selectedImage]];
+    
 }
 
 
-#pragma mark - funs
-/****************************************************************************************************************/
+/**
+ * 使用子控件的方式设置bar背景的颜色，这样不会对bar的位置产生影响
+ */
 
-//使用子控件的方式设置bar背景的颜色，这样不会对bar的位置产生影响
+
 -(void)setBarBKColor:(UIColor *)color
 {
     for (UIView *view in self.navigationBar.subviews)
@@ -52,21 +81,14 @@
                 }
             }
         }
-        
-        
     }
     
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    //在viewDidAppear中修改背景图片
-    
-    [self.navigationBar setShadowImage:[UIImage alloc]];
-    
-    [self setBarBKColor:UIColor.whiteColor];
-}
+
+/**
+ * 重写父类的 pushViewController: animated: 同时在非根控制器跳转的时候设置hidesBottomBarWhenPushed和统一的返回按钮
+ */
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
@@ -74,9 +96,37 @@
     if (self.childViewControllers.count != 0)
     {
         viewController.hidesBottomBarWhenPushed = YES;
+        
+        viewController.navigationItem.leftBarButtonItem = [self addBackButton];
     }
     [super pushViewController:viewController animated:animated];
     
+}
+
+/**
+ * 为非根控制器添加统一的返回按钮
+ */
+
+-(UIBarButtonItem *)addBackButton
+{
+    ACHButton *backButton = [ACHButton buttonWithType:UIButtonTypeCustom];
+    [backButton addTarget:self action:@selector(backButtonClip:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"hybrid_goBack"] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
+    
+    return backItem;
+}
+
+#pragma mark - action
+/****************************************************************************************************************/
+/**
+ * 为非根控制器导航栏的统一返回按钮添加监听者
+ */
+
+-(void)backButtonClip:(ACHButton *)btn
+{
+    [self popViewControllerAnimated:YES];
 }
 
 @end

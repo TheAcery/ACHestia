@@ -27,13 +27,13 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gb1-cd-2T2" customClass="ACHButton">
-                    <rect key="frame" x="335" y="15" width="30" height="30"/>
+                    <rect key="frame" x="335" y="17.5" width="20" height="20"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="BFm-bn-7eR"/>
-                        <constraint firstAttribute="width" constant="30" id="kVH-hH-aHK"/>
+                        <constraint firstAttribute="height" constant="20" id="BFm-bn-7eR"/>
+                        <constraint firstAttribute="width" constant="20" id="kVH-hH-aHK"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" backgroundImage="ORIimage"/>
+                    <state key="normal" backgroundImage="home_navigation_button_icon_scan"/>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bas-Xt-nJs">
                     <rect key="frame" x="76" y="15" width="223" height="30"/>
@@ -45,10 +45,10 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="gb1-cd-2T2" secondAttribute="bottom" constant="10" id="1vH-Op-PWq"/>
                 <constraint firstItem="A6C-Bi-rDj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="6Ej-Xj-YQL"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="bas-Xt-nJs" secondAttribute="bottom" constant="10" id="CQd-h5-oiE"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="gb1-cd-2T2" secondAttribute="trailing" constant="10" id="WUe-dI-9J8"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="gb1-cd-2T2" secondAttribute="trailing" constant="20" id="WUe-dI-9J8"/>
+                <constraint firstItem="gb1-cd-2T2" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="bvb-PX-Njn"/>
                 <constraint firstItem="gb1-cd-2T2" firstAttribute="leading" secondItem="bas-Xt-nJs" secondAttribute="trailing" priority="800" constant="10" id="jKU-vz-TZt"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="A6C-Bi-rDj" secondAttribute="bottom" constant="10" id="m5W-JO-1xi"/>
                 <constraint firstItem="bas-Xt-nJs" firstAttribute="leading" secondItem="A6C-Bi-rDj" secondAttribute="trailing" constant="10" id="nPw-B1-dnu"/>
@@ -60,6 +60,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ORIimage" width="400" height="400"/>
+        <image name="home_navigation_button_icon_scan" width="16" height="16"/>
     </resources>
 </document>

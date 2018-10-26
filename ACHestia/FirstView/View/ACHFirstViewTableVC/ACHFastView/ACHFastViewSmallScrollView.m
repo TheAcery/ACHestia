@@ -175,7 +175,16 @@
         
     }];
     //获取当前选中的按钮
-    ACHButton *selectButton = [self.buttons objectAtIndex:self.nowPageCount - 1];
+    NSInteger buttonIndex = self.nowPageCount - 1;
+    
+    
+    
+    if (buttonIndex < 0)
+    {
+        buttonIndex = 0;
+    }
+    
+    ACHButton *selectButton = [self.buttons objectAtIndex:buttonIndex];
     //改变当前按钮的大小
     [UIView animateWithDuration:0.3 animations:^{
         selectButton.transform = CGAffineTransformScale(selectButton.transform, ButtonScaleSize, ButtonScaleSize);
@@ -199,15 +208,15 @@
 {
     if (!scrollView.dragging)
     {
-        //在结束拖拽同时停止滚动个的时候结束滚动
+        //在结束拖拽时开始自动滚动
         [self scrollViewAutoScroll:3.0];
         
+        //判断拖动到页数
+        self.nowPageCount = scrollView.contentOffset.x / scrollView.ACwidth;
+        
+        [self chageButtonFrame];
+        
     }
-    
-    //判断拖动到页数
-    self.nowPageCount = scrollView.contentOffset.x / scrollView.ACwidth;
-    
-    [self chageButtonFrame];
     
 }
 

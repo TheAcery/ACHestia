@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		590D0435217F3FD5005FEC0D /* ACHFactViewBigScrollViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D0434217F3FD5005FEC0D /* ACHFactViewBigScrollViewDelegate.m */; };
-		590D0438217F4E45005FEC0D /* ACHFastViewMiddleViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D0437217F4E45005FEC0D /* ACHFastViewMiddleViewDelegate.m */; };
-		590D043B217F4F2A005FEC0D /* ACHFastViewSmallScrollViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D043A217F4F2A005FEC0D /* ACHFastViewSmallScrollViewDelegate.m */; };
 		590D043F217F6C99005FEC0D /* ACHFastNewHandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D043E217F6C99005FEC0D /* ACHFastNewHandVC.m */; };
 		590D044221804514005FEC0D /* ACHCutDownVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D044121804514005FEC0D /* ACHCutDownVC.m */; };
 		590D044521804692005FEC0D /* ACHBrandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D044421804692005FEC0D /* ACHBrandVC.m */; };
+		590D04472181C3E3005FEC0D /* ACHShopCarVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 590D04462181C3E3005FEC0D /* ACHShopCarVC.xib */; };
+		590D044A2181C794005FEC0D /* ACHMeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D04492181C794005FEC0D /* ACHMeVC.m */; };
+		590D044D2181D8EF005FEC0D /* ACHDelicacyDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D044C2181D8EF005FEC0D /* ACHDelicacyDetailVC.m */; };
 		5932F6112178637F008BB5C4 /* ACHDelicacyTableVCCellShop.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5932F6102178637F008BB5C4 /* ACHDelicacyTableVCCellShop.xib */; };
 		5932F613217863AA008BB5C4 /* ACHDelicacyTableVCCellShopDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5932F612217863AA008BB5C4 /* ACHDelicacyTableVCCellShopDetail.xib */; };
 		5932F617217863CD008BB5C4 /* ACHDelicacyTableVCCellShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 5932F616217863CD008BB5C4 /* ACHDelicacyTableVCCellShop.m */; };
 		5932F61A217863DA008BB5C4 /* ACHDelicacyTableVCCellShopDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 5932F619217863DA008BB5C4 /* ACHDelicacyTableVCCellShopDetail.m */; };
 		593A219C217476BA000431EB /* ACHFastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 593A219B217476BA000431EB /* ACHFastView.m */; };
 		593A219E217476F8000431EB /* ACHFastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 593A219D217476F8000431EB /* ACHFastView.xib */; };
+		596D2C532181E27E005019F2 /* ACHDownToUpDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 596D2C522181E27E005019F2 /* ACHDownToUpDataView.m */; };
+		596D2C562181E28E005019F2 /* ACHUpToUpDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 596D2C552181E28E005019F2 /* ACHUpToUpDataView.m */; };
 		5973968E21784775002A94BB /* ACHDelicacyTableVCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5973968C21784775002A94BB /* ACHDelicacyTableVCCell.m */; };
 		5973968F21784775002A94BB /* ACHDelicacyTableVCCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5973968D21784775002A94BB /* ACHDelicacyTableVCCell.xib */; };
 		597A70352174C1E600C393A1 /* ACHFastViewSmallScrollViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 597A70342174C1E600C393A1 /* ACHFastViewSmallScrollViewCell.m */; };
@@ -81,18 +83,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		590D0433217F3FD5005FEC0D /* ACHFactViewBigScrollViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHFactViewBigScrollViewDelegate.h; sourceTree = "<group>"; };
-		590D0434217F3FD5005FEC0D /* ACHFactViewBigScrollViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHFactViewBigScrollViewDelegate.m; sourceTree = "<group>"; };
-		590D0436217F4E45005FEC0D /* ACHFastViewMiddleViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHFastViewMiddleViewDelegate.h; sourceTree = "<group>"; };
-		590D0437217F4E45005FEC0D /* ACHFastViewMiddleViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHFastViewMiddleViewDelegate.m; sourceTree = "<group>"; };
-		590D0439217F4F2A005FEC0D /* ACHFastViewSmallScrollViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHFastViewSmallScrollViewDelegate.h; sourceTree = "<group>"; };
-		590D043A217F4F2A005FEC0D /* ACHFastViewSmallScrollViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHFastViewSmallScrollViewDelegate.m; sourceTree = "<group>"; };
 		590D043D217F6C99005FEC0D /* ACHFastNewHandVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHFastNewHandVC.h; sourceTree = "<group>"; };
 		590D043E217F6C99005FEC0D /* ACHFastNewHandVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHFastNewHandVC.m; sourceTree = "<group>"; };
 		590D044021804514005FEC0D /* ACHCutDownVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHCutDownVC.h; sourceTree = "<group>"; };
 		590D044121804514005FEC0D /* ACHCutDownVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHCutDownVC.m; sourceTree = "<group>"; };
 		590D044321804692005FEC0D /* ACHBrandVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHBrandVC.h; sourceTree = "<group>"; };
 		590D044421804692005FEC0D /* ACHBrandVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHBrandVC.m; sourceTree = "<group>"; };
+		590D04462181C3E3005FEC0D /* ACHShopCarVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ACHShopCarVC.xib; sourceTree = "<group>"; };
+		590D04482181C794005FEC0D /* ACHMeVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHMeVC.h; sourceTree = "<group>"; };
+		590D04492181C794005FEC0D /* ACHMeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHMeVC.m; sourceTree = "<group>"; };
+		590D044B2181D8EE005FEC0D /* ACHDelicacyDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHDelicacyDetailVC.h; sourceTree = "<group>"; };
+		590D044C2181D8EF005FEC0D /* ACHDelicacyDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHDelicacyDetailVC.m; sourceTree = "<group>"; };
 		5932F6102178637F008BB5C4 /* ACHDelicacyTableVCCellShop.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ACHDelicacyTableVCCellShop.xib; sourceTree = "<group>"; };
 		5932F612217863AA008BB5C4 /* ACHDelicacyTableVCCellShopDetail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ACHDelicacyTableVCCellShopDetail.xib; sourceTree = "<group>"; };
 		5932F615217863CD008BB5C4 /* ACHDelicacyTableVCCellShop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHDelicacyTableVCCellShop.h; sourceTree = "<group>"; };
@@ -102,6 +103,10 @@
 		593A219A217476BA000431EB /* ACHFastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHFastView.h; sourceTree = "<group>"; };
 		593A219B217476BA000431EB /* ACHFastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHFastView.m; sourceTree = "<group>"; };
 		593A219D217476F8000431EB /* ACHFastView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ACHFastView.xib; sourceTree = "<group>"; };
+		596D2C512181E27E005019F2 /* ACHDownToUpDataView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHDownToUpDataView.h; sourceTree = "<group>"; };
+		596D2C522181E27E005019F2 /* ACHDownToUpDataView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHDownToUpDataView.m; sourceTree = "<group>"; };
+		596D2C542181E28E005019F2 /* ACHUpToUpDataView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHUpToUpDataView.h; sourceTree = "<group>"; };
+		596D2C552181E28E005019F2 /* ACHUpToUpDataView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHUpToUpDataView.m; sourceTree = "<group>"; };
 		5973968B21784775002A94BB /* ACHDelicacyTableVCCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACHDelicacyTableVCCell.h; sourceTree = "<group>"; };
 		5973968C21784775002A94BB /* ACHDelicacyTableVCCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACHDelicacyTableVCCell.m; sourceTree = "<group>"; };
 		5973968D21784775002A94BB /* ACHDelicacyTableVCCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ACHDelicacyTableVCCell.xib; sourceTree = "<group>"; };
@@ -281,6 +286,10 @@
 				59B7C8F321736D8D00D45AA4 /* ACHButton.m */,
 				597A70412175DAE300C393A1 /* ACHScrollView.h */,
 				597A70422175DAE300C393A1 /* ACHScrollView.m */,
+				596D2C512181E27E005019F2 /* ACHDownToUpDataView.h */,
+				596D2C522181E27E005019F2 /* ACHDownToUpDataView.m */,
+				596D2C542181E28E005019F2 /* ACHUpToUpDataView.h */,
+				596D2C552181E28E005019F2 /* ACHUpToUpDataView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -428,6 +437,8 @@
 				59B7C9142173724100D45AA4 /* ACHDelicacyNAVC.m */,
 				5992299121760B56001A39DA /* ACHDelicacyTableVC.h */,
 				5992299221760B56001A39DA /* ACHDelicacyTableVC.m */,
+				590D044B2181D8EE005FEC0D /* ACHDelicacyDetailVC.h */,
+				590D044C2181D8EF005FEC0D /* ACHDelicacyDetailVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -520,6 +531,7 @@
 		59B7C907217371C500D45AA4 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				590D04462181C3E3005FEC0D /* ACHShopCarVC.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -572,6 +584,8 @@
 			children = (
 				59B7C9192173728000D45AA4 /* ACHMeNAVC.h */,
 				59B7C91A2173728000D45AA4 /* ACHMeNAVC.m */,
+				590D04482181C794005FEC0D /* ACHMeVC.h */,
+				590D04492181C794005FEC0D /* ACHMeVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -607,12 +621,6 @@
 				59B7C929217391E600D45AA4 /* ACHFirstViewTranslationAnimtor.m */,
 				59C776B42179EC3700A19FD3 /* ACHFirstViewDrivenInteractiveTransition.h */,
 				59C776B52179EC3700A19FD3 /* ACHFirstViewDrivenInteractiveTransition.m */,
-				590D0433217F3FD5005FEC0D /* ACHFactViewBigScrollViewDelegate.h */,
-				590D0434217F3FD5005FEC0D /* ACHFactViewBigScrollViewDelegate.m */,
-				590D0436217F4E45005FEC0D /* ACHFastViewMiddleViewDelegate.h */,
-				590D0437217F4E45005FEC0D /* ACHFastViewMiddleViewDelegate.m */,
-				590D0439217F4F2A005FEC0D /* ACHFastViewSmallScrollViewDelegate.h */,
-				590D043A217F4F2A005FEC0D /* ACHFastViewSmallScrollViewDelegate.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -730,6 +738,7 @@
 				5989960C217708AE00BBB3BB /* ACHFirstHeadView.xib in Resources */,
 				598A33A92176FA1D0040693C /* ACHFirstViewTableHeadView.xib in Resources */,
 				59E88C132178CA12008ED61F /* ACHDelicacyTableSectionHeaderView.xib in Resources */,
+				590D04472181C3E3005FEC0D /* ACHShopCarVC.xib in Resources */,
 				59F61991217EC59F00148209 /* ACHFastViewMiddleView.xib in Resources */,
 				59F6198C217EC43D00148209 /* ACHFastViewJumpView.xib in Resources */,
 				5973968F21784775002A94BB /* ACHDelicacyTableVCCell.xib in Resources */,
@@ -755,6 +764,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				59B7C91F2173784500D45AA4 /* UIImage+ACH.m in Sources */,
+				590D044A2181C794005FEC0D /* ACHMeVC.m in Sources */,
+				596D2C532181E27E005019F2 /* ACHDownToUpDataView.m in Sources */,
 				59B7C92021737E9700D45AA4 /* ACHFirstViewNAVC.h in Sources */,
 				59C776AE217995D300A19FD3 /* ACHFirstViewController.m in Sources */,
 				59F61965217E27CD00148209 /* ACHFactViewBigScrollView.m in Sources */,
@@ -774,13 +785,14 @@
 				597A70432175DAE300C393A1 /* ACHScrollView.m in Sources */,
 				59E88C112178CA05008ED61F /* ACHDelicacyTableSectionHeaderView.m in Sources */,
 				59B7C92621738ADD00D45AA4 /* ACHFirstViewTableVC.m in Sources */,
+				596D2C562181E28E005019F2 /* ACHUpToUpDataView.m in Sources */,
 				59F61962217CCFAE00148209 /* ACHShopCarVC.m in Sources */,
 				590D044221804514005FEC0D /* ACHCutDownVC.m in Sources */,
 				5992299321760B56001A39DA /* ACHDelicacyTableVC.m in Sources */,
 				59C776B12179AF1D00A19FD3 /* ACHDelicacyTableVCHeadView.m in Sources */,
 				59B7C923217380E900D45AA4 /* ACHNAVC.m in Sources */,
 				597A703D21759E9A00C393A1 /* ACHFirstViewTableViewCell.m in Sources */,
-				590D0435217F3FD5005FEC0D /* ACHFactViewBigScrollViewDelegate.m in Sources */,
+				590D044D2181D8EF005FEC0D /* ACHDelicacyDetailVC.m in Sources */,
 				590D044521804692005FEC0D /* ACHBrandVC.m in Sources */,
 				59B7C8F421736D8D00D45AA4 /* ACHButton.m in Sources */,
 				597A703A2174CF6000C393A1 /* ACHSmallScrollViewCellItem.m in Sources */,
@@ -791,10 +803,8 @@
 				5932F61A217863DA008BB5C4 /* ACHDelicacyTableVCCellShopDetail.m in Sources */,
 				59F21CC22177636A0080F93E /* ACHFirstViewTableViewCellItem.m in Sources */,
 				59B7C9182173726A00D45AA4 /* ACHShopCarNAVC.m in Sources */,
-				590D043B217F4F2A005FEC0D /* ACHFastViewSmallScrollViewDelegate.m in Sources */,
 				5932F617217863CD008BB5C4 /* ACHDelicacyTableVCCellShop.m in Sources */,
 				5992299621760FAF001A39DA /* UIView+Category.m in Sources */,
-				590D0438217F4E45005FEC0D /* ACHFastViewMiddleViewDelegate.m in Sources */,
 				59B7C91B2173728000D45AA4 /* ACHMeNAVC.m in Sources */,
 				59FFC4AC217AF062006C9998 /* ACHFirstViewNAVCBar.m in Sources */,
 				59B7C9122173720D00D45AA4 /* ACHFirstViewNAVC.m in Sources */,

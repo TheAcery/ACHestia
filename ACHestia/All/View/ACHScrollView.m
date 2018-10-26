@@ -72,9 +72,6 @@
 #pragma mark - setUp
 /****************************************************************************************************************/
 
-
-
-
 /**初始化ACHScrollView*/
 -(void)setUpACHScrollView
 {
@@ -144,11 +141,6 @@
         self.contentOffset = CGPointMake(self.ACwidth, 0);
     }
 
-}
-
--(void)addSubViews:(NSInteger)index
-{
-    
 }
 
 -(void)pageIsUp:(BOOL)up
