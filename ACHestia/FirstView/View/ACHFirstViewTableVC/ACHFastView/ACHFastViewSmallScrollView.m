@@ -133,21 +133,31 @@
 {
     //获取views的个数
     NSInteger viewsCount = self.views.count;
-    //循环创建和设置按钮
     
+    //循环创建和设置按钮
     for (NSInteger count = 0; count < viewsCount; count++)
     {
         ACHButton *button = [[ACHButton alloc]init];
         //设置image
         [button setBackgroundImage:[UIImage imageNamed:@"ORIimage"] forState:UIControlStateNormal];
+        
         //设置target
         [button addTarget:self action:@selector(buttonClip:) forControlEvents:UIControlEventTouchUpInside];
         
         [button sizeToFit];
+        
+        //设置圆角
+        button.layer.cornerRadius = self.stackView.ACheight * 0.5;
+        button.layer.masksToBounds = YES;
+        //设置边框
+        button.layer.borderColor = [UIColor blackColor].CGColor; // 边框颜色
+        button.layer.borderWidth = 3;
 
         //加入到stackView
         
         [self.stackView addArrangedSubview:button];
+        
+        
         
         //添加到buttons
         

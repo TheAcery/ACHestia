@@ -14,6 +14,7 @@
 #import "ACHFirstViewTableHeadView.h"
 #import "ACHFirstHeadView.h"
 #import "ACHFirstViewTableViewCell.h"
+#import "ACHDownToUpDataView.h"
 
 //controller
 #import "ACHFirstViewController.h"
@@ -45,6 +46,9 @@
 /**在tableview前面的view*/
 @property (nonatomic, weak) ACHFastView *fastView;
 
+/**下拉刷新视图*/
+@property (nonatomic, weak) ACHDownToUpDataView *downToUpDataView;
+
 @end
 
 @implementation ACHFirstViewTableVC
@@ -73,6 +77,7 @@
     [super viewDidLoad];
 
     [self setUpSubViews];
+    self.view.backgroundColor = UIColor.whiteColor;
 
 }
 
@@ -123,6 +128,7 @@
     return HeaderBarHeight + 40;
 }
 
+
 #pragma mark -UITableViewDelegate
 /****************************************************************************************************************/
 
@@ -142,9 +148,38 @@
     //随着tableView的滚动设置headerView的alpah
     CGFloat alpha = 1.0 * (scrollView.contentOffset.y/ 75);
     
+    if (scrollView.contentOffset.y < 0)
+    {
+        self.headView.ACy = -scrollView.contentOffset.y;
+    }
+    
+   
 
     self.headView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:alpha];
     //设置 sectionHeadView 的阴影
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    //判断是否下拉刷新
+    if (scrollView.contentOffset.y <= -70)
+    {
+        //开始刷新动画
+        [self.downToUpDataView startAnimate];
+        scrollView.contentInset = UIEdgeInsetsMake(70, 0, 0, 0);
+    }
+    
+    //模拟网络请求的延迟
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+            self.headView.ACy = 0;
+            //结束动画
+            [self.downToUpDataView cancelAnimate];
+        }];
+        
+    });
 }
 
 #pragma mark - setUp
@@ -173,8 +208,7 @@
         tableView.dataSource = self;
         tableView.rowHeight = RowHeight;
         tableView.tableHeaderView = fastView;
-        tableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageWithUIColor:UIColor.redColor]];
-        self.tableView = tableView;
+        tableView.backgroundColor = UIColor.clearColor;
         tableView;
     });
     
@@ -191,7 +225,14 @@
         headView;
     });
     
+    //down to updata view
+    ACHDownToUpDataView *downToUpDataView = [[ACHDownToUpDataView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 70)];
+    
+    [self.view addSubview: downToUpDataView];
+    self.downToUpDataView = downToUpDataView;
+    
     [self.view addSubview:tableView];
+    
     [self.view addSubview:headView];
     
 }

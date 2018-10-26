@@ -8,7 +8,8 @@
 
 #import "ACHDownToUpDataView.h"
 
-#warning TODO 下拉刷新 make left and right
+
+#warning TODO 使用mask 来显示遮罩内容,需要这样不透明的logo，其他透明
 
 /**
  * 这部分我们讨论ACHDownToUpData功能的实现
@@ -33,13 +34,15 @@
 
 @property (nonatomic, strong) UIBezierPath *lastPath;
 
-@property (assign, nonatomic) CGFloat progress;
-
-@property (nonatomic, strong) CAShapeLayer *shapeLayer;
+@property (nonatomic, weak) CAShapeLayer *shapeLayer;
 
 @property (nonatomic, strong) CABasicAnimation *animate;
 
-@property (assign, nonatomic) BOOL canAnimate;
+@property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, strong) CADisplayLink *displayLink;
+
+
 
 @end
 
@@ -51,64 +54,17 @@
 {
     if (self = [super initWithFrame:frame])
     {
-        
-        self.clipsToBounds = YES;
-        self.canAnimate = YES;
-        
-//        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkAction)];
-//        displayLink.preferredFramesPerSecond = 50;
-        
-//        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-        
-        UIImageView *imageView  = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"home_choiness_banner_placeholder"]];
-        
-         imageView.frame = CGRectMake((frame.size.width - imageView.ACwidth) * 0.5, 0, imageView.ACwidth, imageView.ACheight);
-        
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self addSubview:imageView];
-        self.BKImageView = imageView;
-        
-        
-        UIBezierPath *path =
-        ({
-           UIBezierPath *path = [UIBezierPath bezierPath];
-            [path moveToPoint:CGPointMake(0, frame.size.height * 0.5)];
-            [path addCurveToPoint:CGPointMake(frame.size.width, frame.size.height * 0.5) controlPoint1:CGPointMake(frame.size.width * 0.5, 0) controlPoint2:CGPointMake(frame.size.width* 0.5,frame.size.height)];
-            
-            [path addLineToPoint:CGPointMake(frame.size.width, frame.size.height)];
-            [path addLineToPoint:CGPointMake(0, frame.size.height)];
-            path;
-        });
-        
-        self.lastPath = path;
-        
-        CAShapeLayer *layer =
-        ({
-            CAShapeLayer *layer = [CAShapeLayer layer];
-            layer.path = path.CGPath;
-            layer.fillColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.3].CGColor;
-            layer.bounds = imageView.frame;
-            layer.anchorPoint = CGPointZero;
-            self.shapeLayer =layer;
-            layer;
-        });
-       
-       [imageView.layer insertSublayer:layer above:imageView.layer];
-        
+        //初始化视图
+        [self setUp];
+        //初始化子视图
+        [self setUpSubViews];
+        //初始化manimate
+        [self setUpAnimate];
+        //初始化layer
+        [self setUpLayer];
+  
     }
     return self;
-}
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-   
-    [self makePath:0.5];
-    
-    self.animate.fromValue = (__bridge id _Nullable)(self.lastPath.CGPath);
-    self.animate.toValue = (__bridge id _Nullable)(self.path.CGPath);
-    
-    [self.shapeLayer addAnimation:self.animate forKey:nil];
-    
-    self.lastPath = self.path;
 }
 
 
@@ -120,13 +76,13 @@
     if (_animate == nil)
     {
         _animate = [CABasicAnimation animation];
-        
+        _animate.keyPath = @"path";
         _animate.removedOnCompletion = NO;
         _animate.fillMode = kCAFillModeForwards;
         
         _animate.delegate = self;
         
-        _animate.duration = 0.1;
+        _animate.duration = 0.3;
         _animate.repeatCount = 1;
     }
     
@@ -142,10 +98,10 @@
  * 和进度有关的只有波浪的整体高度，波浪的水平摆动和垂直摆动都是随机的数值，再前一起基础上，所以只需要传入进度就行
  */
 
--(void)makePath:(CGFloat )progress
+-(void)makePath
 {
     //总体高度，浪花的起始位置，结束位置可以用这个数值，为了真实也许会通过这个值计算得到结束的位置，加或减去一个随机值
-    CGFloat heightStart = progress * self.frame.size.height;
+    CGFloat heightStart = self.ACheight - (self.progress * self.ACheight);
     //浪花的结束高度
     CGFloat heightEnd = heightStart;
     
@@ -158,9 +114,8 @@
     CGFloat controlPointOneX = (arc4random() % (NSInteger)(self.ACwidth * 0.25)) + self.ACwidth * 0.25*0.5;
     CGFloat controlPointTwoX = (arc4random() % (NSInteger)(self.ACwidth * 0.25)) + (self.ACwidth * 0.25*0.5) + (self.ACwidth * 0.5) ;
     
-    CGFloat controlPointOneY = heightStart - (arc4random() % (NSInteger)(self.ACheight * 0.25));//初始值
-    CGFloat controlPointTwoY = controlPointOneY - (arc4random() % (NSInteger)(self.ACheight * 0.25));//初始值
-    
+    CGFloat controlPointOneY = heightStart + (arc4random() % (NSInteger)self.ACheight * 0.4) - self.ACheight * 0.2;//初始值
+    CGFloat controlPointTwoY = heightStart + (arc4random() % (NSInteger)self.ACheight * 0.4) - self.ACheight * 0.2;//初始值
     UIBezierPath *path = [UIBezierPath bezierPath];
     
     [path moveToPoint:CGPointMake(0, heightStart)];
@@ -173,26 +128,126 @@
 }
 
 
--(void)makeAnimate
+-(void)startAnimate
 {
-    self.animate = nil;
+    self.canAnimate = YES;
+    
+    
+    if (self.displayLink == nil)
+    {
+        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkAction)];
+        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        self.displayLink = displayLink;
+    }
+    
+    
+    if (self.timer == nil)
+    {
+        NSTimer *timer = [NSTimer timerWithTimeInterval:0.2 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            
+            if (self.progress >= 1)
+            {
+                self.progress = 0;
+            }
+            self.progress += 0.05;
+            
+        }];
+        [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSRunLoopCommonModes];
+        
+        self.timer = timer;
+    }
 }
+
+
+-(void)endAnimate
+{
+    [self.displayLink invalidate];
+    self.displayLink = nil;
+    
+    [self.timer invalidate];
+    self.timer = nil;
+
+}
+
+-(void)cancelAnimate
+{
+    [self endAnimate];
+    self.canAnimate = YES;
+
+    self.progress = 0;
+    [self makePath];
+    self.shapeLayer.path = self.path.CGPath;
+    
+    [self displayLinkAction];
+    
+    
+}
+
+-(void)setUpLayer
+{
+    CAShapeLayer *layer =
+    ({
+        CAShapeLayer *layer = [CAShapeLayer layer];
+        layer.path = self.path.CGPath;
+        layer.fillColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.3].CGColor;
+        layer.bounds = self.BKImageView.frame;
+        layer.anchorPoint = CGPointZero;
+        self.shapeLayer =layer;
+        layer;
+    });
+    
+    [self.BKImageView.layer insertSublayer:layer above:self.BKImageView.layer];
+}
+
+
+/**这个方法为第一次启动动画做准备，创建了进度为0时的path，并让他成为上一次的path，下一次的path将会再次创建*/
+
+-(void)setUpAnimate
+{
+    self.progress = 0.0;
+
+    [self makePath];
+    
+    self.lastPath = self.path;
+}
+
+-(void)setUpSubViews
+{
+    UIImageView *imageView =
+    ({
+        UIImageView *imageView  = [[UIImageView alloc]initWithFrame:self.bounds];
+        imageView.image = [UIImage imageNamed:@"home_choiness_banner_placeholder"];
+        imageView.frame = CGRectMake((self.frame.size.width - imageView.ACwidth) * 0.5, 0, imageView.ACwidth, imageView.ACheight);
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.BKImageView = imageView;
+        imageView;
+    });
+    
+    [self addSubview:imageView];
+   
+}
+
+-(void)setUp
+{
+    self.clipsToBounds = YES;
+}
+
 
 #pragma mark - CAAnimationDelegate
 /****************************************************************************************************************/
 
 - (void)animationDidStart:(CAAnimation *)anim
 {
-//    self.canAnimate = NO;
+    self.canAnimate = NO;
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-//    if (flag)
-//    {
-//        //之后上次动画结束了才开始下一次动画
-//        self.canAnimate =YES;
-//    }
+    if (flag)
+    {
+        //之后上次动画结束了才开始下一次动画
+        self.canAnimate =YES;
+    }
 }
 
 
@@ -202,10 +257,30 @@
 -(void)displayLinkAction
 
 {
-    if (1)
+    if (self.canAnimate)
     {
+        [self makePath];
         
+        self.animate.fromValue = (__bridge id _Nullable)(self.lastPath.CGPath);
+        self.animate.toValue = (__bridge id _Nullable)(self.path.CGPath);
+        
+        
+        [self.shapeLayer addAnimation:self.animate forKey:nil];
+        
+        self.lastPath = self.path;
     }
+}
+
+#pragma mark - dealloc
+/****************************************************************************************************************/
+
+- (void)dealloc
+{
+    [self.timer invalidate];
+    self.timer = nil;
+    
+    [self.displayLink invalidate];
+    self.displayLink = nil;
 }
 
 @end
