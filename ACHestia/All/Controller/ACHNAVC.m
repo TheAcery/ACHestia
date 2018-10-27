@@ -10,7 +10,7 @@
 
 #import "ACHButton.h"
 
-@interface ACHNAVC ()
+@interface ACHNAVC () <UIGestureRecognizerDelegate>
 
 @end
 
@@ -29,6 +29,8 @@
     //    [self.navigationBar setShadowImage:[UIImage alloc]];
     
     [self setBarBKColor:UIColor.whiteColor];
+    
+    self.interactivePopGestureRecognizer.delegate = self;
     
     
 }
@@ -93,7 +95,7 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     
-    if (self.childViewControllers.count != 0)
+    if (self.childViewControllers.count >= 1)
     {
         viewController.hidesBottomBarWhenPushed = YES;
         
@@ -127,6 +129,20 @@
 -(void)backButtonClip:(ACHButton *)btn
 {
     [self popViewControllerAnimated:YES];
+}
+
+
+#pragma mark - UIGestureRecognizerDelegate
+/****************************************************************************************************************/
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (self.childViewControllers.count > 1)
+    {
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

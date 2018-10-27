@@ -16,6 +16,9 @@
  * 下拉刷新逻辑，tableView拖拽停止的时候来判断是否应该更新，在tableView滚动偏移量小于0的时候让headView进行移动
  * 在更新的时候假如向上拖拽来tableView，这时候应该取消更新，包括动画和网络请求，这时候偏移量的区间应该是0 到 -downToUpDataView.height，同时还应该满足正在更新的状态，，因为在每次下拉更新的时候都会在这个区间滚动。这个标示应该开开始更新的时候设为yes，在结束和取消的时候设为no
  * 在正常更新结束后我们吧内边距的top设置为0、停止请求、停止动画、让headView回来最开始的位置，同样的我们在取消的时候也希望这样
+ * 同时在控制器跳转的时候也应该结束刷新这一些列的事件，他们应该在一个方法中，尝试将这些逻辑封装进downToUpDataView，怎么驱动？我们需要获取到tbaleView的滚动数据，然后修改tableView的一些数据。虽然downToUpDataView提供了一些方法，但是控制器仍然很臃肿，因为它需要做很多事情，他有很多逻辑，有什么办法能让这些逻辑单独在一个模块？试图把这些逻辑抽成一些方法，但这样并不能从根本上解决问题。
+ * 似乎逻辑部分就应该在控制器中描述？可以尝试不让控制器做作为视图的代理，但这样控制器的意义又在哪里？把逻辑部分作为model？将封装上逻辑放入model部分，控制器将事件发送到model，逻辑判断后在通过代理回调，来控制view。
+ * 这样能解决控制器代码臃肿的问题却降低了MVC的灵活度，C并不能直接和V沟通，因为C现在不知悉V的状态，同时事件传递的代码也增加了，没有更好的想法了吗？还是要求太多？
  */
 
 #import "ACHFirstViewTableVC.h"
@@ -110,6 +113,28 @@ bool isUpData = NO;
 
 }
 
+
+
+#pragma mark - funs
+/****************************************************************************************************************/
+
+
+-(void)cancelRequestAndAnimate
+{
+    //停止请求
+    //停止动画
+    isupDataCancel = YES;
+    //结束动画
+    [self.downToUpDataView cancelAnimate];
+    //不再不在更新
+    isUpData = NO;
+    
+    //恢复视图
+    self.headView.ACy = 0;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+
 #pragma mark - Table view data source
 /****************************************************************************************************************/
 
@@ -177,7 +202,6 @@ bool isUpData = NO;
         if (scrollView.contentOffset.y <= -DownToUpDataViewHeight)//当偏移量小于0的部分超过downToUpDataView的h高度时，downToUpDataView应该跟随移动
         {
             self.downToUpDataView.ACy = - scrollView.contentOffset.y - DownToUpDataViewHeight;
-            NSLog(@"--- %f --- %f",scrollView.contentOffset.y,scrollView.contentInset.top);
         }
         
         if (scrollView.contentOffset.y > -DownToUpDataViewHeight && isUpData)//当正在更新，一上拉就取消更新
@@ -188,12 +212,12 @@ bool isUpData = NO;
             [self.downToUpDataView cancelAnimate];
             //不再不在更新
             isUpData = NO;
-           
         }
-        if (scrollView.contentOffset.y == -DownToUpDataViewHeight && isUpData)
+        if (scrollView.contentOffset.y <= -DownToUpDataViewHeight && isUpData)
         {
             //更新被取消
             isupDataCancel = NO;
+            
         }
     }
     else
@@ -226,12 +250,15 @@ bool isUpData = NO;
                 
                 if (!isupDataCancel)
                 {
-                    self.headView.ACy = scrollView.contentOffset.y;
+                    
+                    [scrollView.panGestureRecognizer setTranslation:CGPointZero inView:scrollView.panGestureRecognizer.view];
+                    //在每次更新完成之后结束上一次的手势
+                    scrollView.panGestureRecognizer.state = UIGestureRecognizerStateEnded;
+                    self.headView.ACy = 0;
                     scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
                     scrollView.contentOffset = CGPointMake(0, 0);
                     
-//                    [scrollView.panGestureRecognizer setTranslation:CGPointZero inView:scrollView.panGestureRecognizer.view];
-                    scrollView.panGestureRecognizer.state = UIGestureRecognizerStateEnded;
+                    
                     
                 }
                 //结束动画
@@ -344,6 +371,7 @@ bool isUpData = NO;
 -(void)didFastViewJumpView:(ACHFastViewJumpView *)view DelicacyButtonClip:(ACHButton *)btn
 {
     //跳转到有好菜
+    [self cancelRequestAndAnimate];
     [self.tabBarController setSelectedIndex:1];
 }
 
