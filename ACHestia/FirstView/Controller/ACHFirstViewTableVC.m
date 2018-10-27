@@ -45,6 +45,8 @@
 
 #define FASTVIEWHIGHT 300.0
 #define RowHeight 100
+#define DownToUpDataViewHeight 70
+#define DownToUpDataBKViewHeight 50
 
 @interface ACHFirstViewTableVC () <UITableViewDelegate,UITableViewDataSource,ACHFastViewDelegate>
 
@@ -172,12 +174,13 @@ bool isUpData = NO;
         
         self.headView.ACy = -scrollView.contentOffset.y;
         
-        if (scrollView.contentOffset.y <= -70)//当偏移量小于0的部分超过downToUpDataView的h高度时，downToUpDataView应该跟随移动
+        if (scrollView.contentOffset.y <= -DownToUpDataViewHeight)//当偏移量小于0的部分超过downToUpDataView的h高度时，downToUpDataView应该跟随移动
         {
-            self.downToUpDataView.ACy = - scrollView.contentOffset.y - 70;
+            self.downToUpDataView.ACy = - scrollView.contentOffset.y - DownToUpDataViewHeight;
+            NSLog(@"--- %f --- %f",scrollView.contentOffset.y,scrollView.contentInset.top);
         }
         
-        if (scrollView.contentOffset.y > -70 && isUpData)//当正在更新，一上拉就取消更新
+        if (scrollView.contentOffset.y > -DownToUpDataViewHeight && isUpData)//当正在更新，一上拉就取消更新
         {
             //更新被取消
             isupDataCancel = YES;
@@ -187,7 +190,7 @@ bool isUpData = NO;
             isUpData = NO;
            
         }
-        if (scrollView.contentOffset.y == -70 && isUpData)
+        if (scrollView.contentOffset.y == -DownToUpDataViewHeight && isUpData)
         {
             //更新被取消
             isupDataCancel = NO;
@@ -200,6 +203,8 @@ bool isUpData = NO;
         scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         
     }
+    
+    
     self.headView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:alpha];
     //设置 sectionHeadView 的阴影
 }
@@ -207,12 +212,12 @@ bool isUpData = NO;
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     //判断是否下拉刷新
-    if (scrollView.contentOffset.y <= -70)
+    if (scrollView.contentOffset.y <= -DownToUpDataViewHeight)
     {
         isUpData = YES;
         //开始刷新动画
         [self.downToUpDataView startAnimate];
-        scrollView.contentInset = UIEdgeInsetsMake(70, 0, 0, 0);
+        scrollView.contentInset = UIEdgeInsetsMake(DownToUpDataViewHeight, 0, 0, 0);
         
         //模拟网络请求的延迟
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -223,6 +228,11 @@ bool isUpData = NO;
                 {
                     self.headView.ACy = scrollView.contentOffset.y;
                     scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+                    scrollView.contentOffset = CGPointMake(0, 0);
+                    
+//                    [scrollView.panGestureRecognizer setTranslation:CGPointZero inView:scrollView.panGestureRecognizer.view];
+                    scrollView.panGestureRecognizer.state = UIGestureRecognizerStateEnded;
+                    
                 }
                 //结束动画
                 [self.downToUpDataView cancelAnimate];
@@ -281,11 +291,11 @@ bool isUpData = NO;
     
     ACHDownToUpDataView *downToUpDataView =
     ({
-        UIImageView *BKImageview = [[UIImageView alloc]initWithFrame:CGRectMake((SCRENNBOUNDS.size.width - 50)  * 0.5, 20, 50, 50)];
+        UIImageView *BKImageview = [[UIImageView alloc]initWithFrame:CGRectMake((SCRENNBOUNDS.size.width - DownToUpDataBKViewHeight)  * 0.5,DownToUpDataViewHeight - DownToUpDataBKViewHeight, DownToUpDataBKViewHeight, DownToUpDataBKViewHeight)];
         BKImageview.image = [UIImage imageNamed:@"updata_logo"];
         
         ACHDownToUpDataView *downToUpDataView = [ACHDownToUpDataView downToUpDataViewWithBKImageView:BKImageview];
-        downToUpDataView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, 70);
+        downToUpDataView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, DownToUpDataViewHeight);
         self.downToUpDataView = downToUpDataView;
         downToUpDataView;
     });
