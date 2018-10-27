@@ -35,6 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)cancelAnimate;
 
+
+/**
+ * 快速创建ACHDownToUpDataView的方法，传入了一个描述背景的视图（图片和位置）
+ * 这个视图其实是不在ACHDownToUpDataView上显示的
+ */
+
++(instancetype)downToUpDataViewWithBKImageView:(UIImageView *)bkimageView;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

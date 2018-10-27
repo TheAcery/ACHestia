@@ -19,6 +19,7 @@
 
 //import
 #import "UIImage+ACH.h"
-#import "UIView+Category.h"
+#import "UIView+ACH.h"
+#import "CALayer+ACH.h"
 
 #endif /* ACH_PCH_pch */

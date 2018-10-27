@@ -6,9 +6,9 @@
 //  Copyright © 2018年 Acery. All rights reserved.
 //  UIView的l分类
 
-#import "UIView+Category.h"
+#import "UIView+ACH.h"
 
-@implementation UIView (Category)
+@implementation UIView (ACH)
 
 #pragma mark - frame -- setting funs
 /****************************************************************************************************************/

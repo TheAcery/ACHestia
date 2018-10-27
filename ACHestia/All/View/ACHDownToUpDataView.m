@@ -9,7 +9,9 @@
 #import "ACHDownToUpDataView.h"
 
 
-#warning TODO 使用mask 来显示遮罩内容,需要这样不透明的logo，其他透明
+/**背景和动画图层的颜色*/
+#define BKColor [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.1].CGColor
+#define AnimateLayerColor [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.3].CGColor
 
 /**
  * 这部分我们讨论ACHDownToUpData功能的实现
@@ -23,23 +25,39 @@
  * 很明显我们需要通过layer的遮罩来实现原来下拉的动画，我们需要让一个layer呈现出上升的波浪动画，同时它的透明度是半透明的。
  * 为了实现波浪动画，我们需要一个形状图层，然后描述波浪的BezierPath,如果需要双波浪的话需要两条贝塞尔曲线
  * 动画的驱动，在view内部驱动动画，我们需要一个定时器来每次让波浪运动，在这个定时器(displayLink)的循环中我们创建新的path，然后让shapeLayer从上次的形状过渡到现在的形状。
- * 所以我们需要不停的创建动画对象,提供一个类属性，不断的修改toValue，然后再动画执行完毕的时候从shapeLayer移除这个动画
+ * 所以我们需要不停的修改动画对象的toValue
  */
 
 @interface ACHDownToUpDataView () <CAAnimationDelegate>
 
+/**
+ * 从外界传入描述背景视图的信息，包括背景图片和位置，但它并不会显示在视图h上
+ */
+
 @property (nonatomic, weak) UIImageView *BKImageView;
 
+/**
+ * 真正显示在视图上的背景
+ */
+
+@property (nonatomic, weak) UIView *maskView;
+
+/**当前最新的path，动画从上一次的path过渡到这个path描述的形状*/
 @property (nonatomic, strong) UIBezierPath *path;
 
+/**上一次的path*/
 @property (nonatomic, strong) UIBezierPath *lastPath;
 
+/**形状图层，动画作用于这个动画*/
 @property (nonatomic, weak) CAShapeLayer *shapeLayer;
 
+/**动画对象*/
 @property (nonatomic, strong) CABasicAnimation *animate;
 
+/**驱动动画进度的定时器，表现为波浪在不断的抬升，直到上升的顶部*/
 @property (nonatomic, strong) NSTimer *timer;
 
+/**驱动波浪起伏的定时器*/
 @property (nonatomic, strong) CADisplayLink *displayLink;
 
 
@@ -50,21 +68,38 @@
 
 
 
+#pragma mark - init funs
+/****************************************************************************************************************/
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame])
     {
         //初始化视图
         [self setUp];
-        //初始化子视图
-        [self setUpSubViews];
-        //初始化manimate
-        [self setUpAnimate];
-        //初始化layer
-        [self setUpLayer];
+       
   
     }
     return self;
+}
+
+
+- (instancetype)initWithBKImageView:(UIImageView *)bkimageView
+{
+    if (self = [super init])
+    {
+        self.BKImageView = bkimageView;
+        
+        
+    }
+    return self;
+}
+
+
++(instancetype)downToUpDataViewWithBKImageView:(UIImageView *)bkimageView
+{
+    ACHDownToUpDataView *downToUpDataView = [[ACHDownToUpDataView alloc]initWithBKImageView:bkimageView];
+    return downToUpDataView;
 }
 
 
@@ -89,6 +124,25 @@
     return _animate;
 }
 
+#pragma mark - setting funs
+/****************************************************************************************************************/
+
+- (void)setBKImageView:(UIImageView *)BKImageView
+{
+    _BKImageView = BKImageView;
+    //在这个方法内添加所有的图层，因为此时的BKImageView才启用
+    
+    UIView *maskView = [[UIView alloc]initWithFrame:BKImageView.frame];
+    [self addSubview:maskView];
+    self.maskView = maskView;
+    /**初始化其他图层*/
+    //初始化manimate
+    [self setUpAnimate];
+    //初始化layer
+    [self setUpLayer];
+    
+}
+
 
 #pragma mark - funs
 /****************************************************************************************************************/
@@ -100,29 +154,32 @@
 
 -(void)makePath
 {
+    //现在所有的数值计算的标准都在maskView中
     //总体高度，浪花的起始位置，结束位置可以用这个数值，为了真实也许会通过这个值计算得到结束的位置，加或减去一个随机值
-    CGFloat heightStart = self.ACheight - (self.progress * self.ACheight);
+    CGFloat heightStart = self.maskView.ACheight - (self.progress * self.maskView.ACheight);
     //浪花的结束高度
     CGFloat heightEnd = heightStart;
     
+    CGFloat widthStart = 0;
+    
     /**
      * 通过两个贝塞尔曲线控制点的位置来控制浪花的起伏和水平位移
-     * 第一个点的位移区间应该在width的左半边，第二个应该在右半边
+     * 第一个点的位移区间应该在mask.width的左半边，第二个应该在右半边
      * 第一个点的高度区间应该在总体高度的固定幅度区间中取值，第二个也是，但是要保证他们不一致
      */
     
-    CGFloat controlPointOneX = (arc4random() % (NSInteger)(self.ACwidth * 0.25)) + self.ACwidth * 0.25*0.5;
-    CGFloat controlPointTwoX = (arc4random() % (NSInteger)(self.ACwidth * 0.25)) + (self.ACwidth * 0.25*0.5) + (self.ACwidth * 0.5) ;
+    CGFloat controlPointOneX = (arc4random() % (NSInteger)(self.maskView.ACwidth * 0.5)) ;
+    CGFloat controlPointTwoX = (arc4random() % (NSInteger)(self.maskView.ACheight * 0.5)) + (self.maskView.ACwidth * 0.5) ;
     
-    CGFloat controlPointOneY = heightStart + (arc4random() % (NSInteger)self.ACheight * 0.4) - self.ACheight * 0.2;//初始值
-    CGFloat controlPointTwoY = heightStart + (arc4random() % (NSInteger)self.ACheight * 0.4) - self.ACheight * 0.2;//初始值
+    CGFloat controlPointOneY = heightStart + (arc4random() % (NSInteger)self.maskView.ACheight * 0.4) - self.maskView.ACheight * 0.2;//初始值
+    CGFloat controlPointTwoY = heightStart + (arc4random() % (NSInteger)self.maskView.ACheight * 0.4) - self.maskView.ACheight * 0.2;//初始值
     UIBezierPath *path = [UIBezierPath bezierPath];
     
-    [path moveToPoint:CGPointMake(0, heightStart)];
-    [path addCurveToPoint:CGPointMake(self.ACwidth, heightEnd) controlPoint1:CGPointMake(controlPointOneX, controlPointOneY) controlPoint2:CGPointMake(controlPointTwoX, controlPointTwoY)];
+    [path moveToPoint:CGPointMake(widthStart, heightStart)];
+    [path addCurveToPoint:CGPointMake(widthStart + self.maskView.ACwidth, heightEnd) controlPoint1:CGPointMake(controlPointOneX, controlPointOneY) controlPoint2:CGPointMake(controlPointTwoX, controlPointTwoY)];
     
-    [path addLineToPoint:CGPointMake(self.ACwidth, self.ACheight)];
-    [path addLineToPoint:CGPointMake(0, self.ACheight)];
+    [path addLineToPoint:CGPointMake(widthStart + self.maskView.ACwidth, self.maskView.ACheight)];
+    [path addLineToPoint:CGPointMake(widthStart, self.maskView.ACheight)];
     
     self.path = path;
 }
@@ -185,18 +242,43 @@
 
 -(void)setUpLayer
 {
-    CAShapeLayer *layer =
+    
+    /**
+     * 背景图层的颜色稍浅一些，只为了凸显出背景的形状（logo）
+     * 动画图层的颜色稍深一些，凸显出动画的进度
+     * 他们可以通过宏来修改
+     * 同时我们使用mask来只显示logo的形状，所以bkiamgeView的iamge需要传入一个除了logo部分之外都透明的图片
+     */
+    /**背景图层*/
+    CALayer *imageMaskLayer =
     ({
-        CAShapeLayer *layer = [CAShapeLayer layer];
-        layer.path = self.path.CGPath;
-        layer.fillColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.3].CGColor;
-        layer.bounds = self.BKImageView.frame;
-        layer.anchorPoint = CGPointZero;
-        self.shapeLayer =layer;
-        layer;
+        CALayer *imageMaskLayer = [CALayer layer];
+        imageMaskLayer.backgroundColor = BKColor;
+        imageMaskLayer.frame = self.maskView.bounds;
+        imageMaskLayer.anchorPoint = CGPointZero;
+        imageMaskLayer.position = CGPointZero;
+        //使用遮罩
+        imageMaskLayer.mask = [CALayer layerWithMaskImage:self.BKImageView.image Frame:self.maskView.bounds];
+        imageMaskLayer;
     });
     
-    [self.BKImageView.layer insertSublayer:layer above:self.BKImageView.layer];
+    [self.maskView.layer insertSublayer:imageMaskLayer above:self.maskView.layer];
+    
+    /**动画图层*/
+    CAShapeLayer *shapeLayer =
+    ({
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+        shapeLayer.path = self.path.CGPath;
+        shapeLayer.fillColor = AnimateLayerColor;
+        shapeLayer.frame = self.maskView.bounds;
+        shapeLayer.anchorPoint = CGPointZero;
+        shapeLayer.position = CGPointZero;
+        shapeLayer.mask = [CALayer layerWithMaskImage:self.BKImageView.image Frame:self.maskView.bounds];
+        self.shapeLayer = shapeLayer;
+        shapeLayer;
+    });
+    
+    [self.maskView.layer insertSublayer:shapeLayer above:imageMaskLayer];
 }
 
 
@@ -211,21 +293,6 @@
     self.lastPath = self.path;
 }
 
--(void)setUpSubViews
-{
-    UIImageView *imageView =
-    ({
-        UIImageView *imageView  = [[UIImageView alloc]initWithFrame:self.bounds];
-        imageView.image = [UIImage imageNamed:@"home_choiness_banner_placeholder"];
-        imageView.frame = CGRectMake((self.frame.size.width - imageView.ACwidth) * 0.5, 0, imageView.ACwidth, imageView.ACheight);
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        self.BKImageView = imageView;
-        imageView;
-    });
-    
-    [self addSubview:imageView];
-   
-}
 
 -(void)setUp
 {

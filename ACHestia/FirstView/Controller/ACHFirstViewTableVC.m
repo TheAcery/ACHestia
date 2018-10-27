@@ -4,7 +4,19 @@
 //
 //  Created by Acery on 2018/10/14.
 //  Copyright © 2018年 Acery. All rights reserved.
-//  描述首页的tableview --- > 根控制器
+//
+
+/**
+ * 这个控制器是ACHFirstView的根控制器，描述了很多的逻辑
+ * 下拉更新逻辑
+ * 按钮点击的控制器跳转逻辑，这个很简单，只要将事件从视图中抛出，然后在对应的事件触发时跳转控制器就行
+ */
+
+/** --- 下拉更新逻辑
+ * 下拉刷新逻辑，tableView拖拽停止的时候来判断是否应该更新，在tableView滚动偏移量小于0的时候让headView进行移动
+ * 在更新的时候假如向上拖拽来tableView，这时候应该取消更新，包括动画和网络请求，这时候偏移量的区间应该是0 到 -downToUpDataView.height，同时还应该满足正在更新的状态，，因为在每次下拉更新的时候都会在这个区间滚动。这个标示应该开开始更新的时候设为yes，在结束和取消的时候设为no
+ * 在正常更新结束后我们吧内边距的top设置为0、停止请求、停止动画、让headView回来最开始的位置，同样的我们在取消的时候也希望这样
+ */
 
 #import "ACHFirstViewTableVC.h"
 #import "ACHFirstViewTranslationAnimtor.h"
@@ -54,7 +66,13 @@
 @implementation ACHFirstViewTableVC
 
 
-    NSString  *Identifier  = @"cell";
+NSString  *Identifier  = @"cell";
+
+/**是否取消更新*/
+bool isupDataCancel = NO;
+
+/**是否正在更新*/
+bool isUpData = NO;
 
 
 
@@ -148,13 +166,40 @@
     //随着tableView的滚动设置headerView的alpah
     CGFloat alpha = 1.0 * (scrollView.contentOffset.y/ 75);
     
-    if (scrollView.contentOffset.y < 0)
+    //刷新判断
+    if (scrollView.contentOffset.y <= 0)//当y偏移量小于0是，可能在刷新
     {
+        
         self.headView.ACy = -scrollView.contentOffset.y;
+        
+        if (scrollView.contentOffset.y <= -70)//当偏移量小于0的部分超过downToUpDataView的h高度时，downToUpDataView应该跟随移动
+        {
+            self.downToUpDataView.ACy = - scrollView.contentOffset.y - 70;
+        }
+        
+        if (scrollView.contentOffset.y > -70 && isUpData)//当正在更新，一上拉就取消更新
+        {
+            //更新被取消
+            isupDataCancel = YES;
+            //结束动画
+            [self.downToUpDataView cancelAnimate];
+            //不再不在更新
+            isUpData = NO;
+           
+        }
+        if (scrollView.contentOffset.y == -70 && isUpData)
+        {
+            //更新被取消
+            isupDataCancel = NO;
+        }
     }
-    
-   
-
+    else
+    {
+        //没在更新
+        self.headView.ACy = 0;
+        scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        
+    }
     self.headView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:alpha];
     //设置 sectionHeadView 的阴影
 }
@@ -164,22 +209,28 @@
     //判断是否下拉刷新
     if (scrollView.contentOffset.y <= -70)
     {
+        isUpData = YES;
         //开始刷新动画
         [self.downToUpDataView startAnimate];
         scrollView.contentInset = UIEdgeInsetsMake(70, 0, 0, 0);
+        
+        //模拟网络请求的延迟
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                
+                if (!isupDataCancel)
+                {
+                    self.headView.ACy = scrollView.contentOffset.y;
+                    scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+                }
+                //结束动画
+                [self.downToUpDataView cancelAnimate];
+                isUpData = NO;
+            }];
+            
+        });
     }
-    
-    //模拟网络请求的延迟
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-            self.headView.ACy = 0;
-            //结束动画
-            [self.downToUpDataView cancelAnimate];
-        }];
-        
-    });
 }
 
 #pragma mark - setUp
@@ -209,6 +260,7 @@
         tableView.rowHeight = RowHeight;
         tableView.tableHeaderView = fastView;
         tableView.backgroundColor = UIColor.clearColor;
+        self.tableView = tableView;
         tableView;
     });
     
@@ -226,13 +278,21 @@
     });
     
     //down to updata view
-    ACHDownToUpDataView *downToUpDataView = [[ACHDownToUpDataView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, 70)];
     
+    ACHDownToUpDataView *downToUpDataView =
+    ({
+        UIImageView *BKImageview = [[UIImageView alloc]initWithFrame:CGRectMake((SCRENNBOUNDS.size.width - 50)  * 0.5, 20, 50, 50)];
+        BKImageview.image = [UIImage imageNamed:@"updata_logo"];
+        
+        ACHDownToUpDataView *downToUpDataView = [ACHDownToUpDataView downToUpDataViewWithBKImageView:BKImageview];
+        downToUpDataView.frame = CGRectMake(0, 0, SCRENNBOUNDS.size.width, 70);
+        self.downToUpDataView = downToUpDataView;
+        downToUpDataView;
+    });
+    
+
     [self.view addSubview: downToUpDataView];
-    self.downToUpDataView = downToUpDataView;
-    
     [self.view addSubview:tableView];
-    
     [self.view addSubview:headView];
     
 }

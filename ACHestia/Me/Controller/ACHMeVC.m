@@ -21,7 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.view.backgroundColor = UIColor.whiteColor;
+    UIView *view = [[UIView alloc]initWithFrame:self.view.frame];
+    view.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.3];
+//    view.
+    [self.view addSubview:view];
 }
 
 - (void)viewWillAppear:(BOOL)animated
