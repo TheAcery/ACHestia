@@ -12,6 +12,7 @@
 #import "ACHDelicacyTableVCCell.h"
 #import "ACHDelicacyTableSectionHeaderView.h"
 #import "ACHDelicacyTableVCHeadView.h"
+#import "ACHDownToUpDataView.h"
 
 //viewController
 #import "ACHDelicacyDetailVC.h"
@@ -25,6 +26,9 @@
 #define TableViewHeaderHeight 60
 #define RowHeight 250
 #define TableViewOtherHeaderHeight 20
+
+#define DownToUpDataViewHeight 70
+#define DownToUpDataBKViewHeight 50
 
 
 @interface ACHDelicacyTableVC () <UITableViewDelegate,UITableViewDataSource,ACHDelicacyTableSectionHeaderViewDelegate>
@@ -42,6 +46,15 @@
 
 @property (nonatomic, weak) UITableView *tableView;
 
+@property (nonatomic, weak) ACHDownToUpDataView *downToUpDataView;
+
+
+/**是否取消更新*/
+@property (assign, nonatomic) BOOL isupDataCancel;
+
+/**是否正在更新*/
+@property (assign, nonatomic) BOOL isUpData;
+
 @end
 
 @implementation ACHDelicacyTableVC
@@ -51,9 +64,10 @@
     NSString *Identifier;
     
     CGFloat HeaderInSectionOne;
-//    CGFloat HeaderInSectionTwo;
-//    CGFloat HeaderInSectionThree;
+    
 }
+
+
 
 #pragma mark - lazy init
 /****************************************************************************************************************/
@@ -103,11 +117,29 @@
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.rowHeight = RowHeight;
+        tableView.backgroundColor = UIColor.clearColor;
         [self.view addSubview:tableView];
         _tableView = tableView;
     }
     
     return _tableView;
+}
+
+- (ACHDownToUpDataView *)downToUpDataView
+{
+    if (_downToUpDataView == nil)
+    {
+        UIImageView *BKImageview = [[UIImageView alloc]initWithFrame:CGRectMake((SCRENNBOUNDS.size.width - DownToUpDataBKViewHeight)  * 0.5,DownToUpDataViewHeight - DownToUpDataBKViewHeight, DownToUpDataBKViewHeight, DownToUpDataBKViewHeight)];
+        BKImageview.image = [UIImage imageNamed:@"updata_logo"];
+        
+        ACHDownToUpDataView *downToUpDataView = [ACHDownToUpDataView downToUpDataViewWithBKImageView:BKImageview];
+        downToUpDataView.frame = CGRectMake(0, HeaderBarHeight, SCRENNBOUNDS.size.width, DownToUpDataViewHeight);
+        
+        [self.view addSubview:downToUpDataView];
+        _downToUpDataView = downToUpDataView;
+    }
+    
+    return _downToUpDataView;
 }
 
 
@@ -186,9 +218,15 @@
 
 -(void)setUp
 {
-    Identifier = @"cell";
-    self.navigationItem.title = @"有好菜";
     
+    Identifier = @"cell";
+    self.isupDataCancel = NO;
+    self.isUpData = NO;
+    
+    self.navigationItem.title = @"有好菜";
+
+    self.view.backgroundColor = UIColor.whiteColor;
+    [self downToUpDataView];
     [self tableHeaderView];
     [self tableSectionHeaderView];
 
@@ -305,7 +343,97 @@
     {
         self.tableSectionHeaderViewContentView.alpha = 0.0;
     }
+    
+//    NSLog(@"---- %f",scrollView.contentOffset.y);
+    
+    //刷新判断
+    if (scrollView.contentOffset.y <= -HeaderBarHeight)//当y偏移量小于0是，可能在刷新
+    {
+        
+
+        
+        if (scrollView.contentOffset.y <= -DownToUpDataViewHeight - HeaderBarHeight)//当偏移量小于0的部分超过downToUpDataView的h高度时，downToUpDataView应该跟随移动
+        {
+            self.downToUpDataView.ACy = - scrollView.contentOffset.y - DownToUpDataViewHeight;
+        }
+        
+        if (scrollView.contentOffset.y > -DownToUpDataViewHeight - HeaderBarHeight && self.isUpData)//当正在更新，一上拉就取消更新
+        {
+            //更新被取消
+            self.isupDataCancel = YES;
+            //结束动画
+            [self.downToUpDataView cancelAnimate];
+            //不再不在更新
+            self.isUpData = NO;
+            
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                
+                scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+                scrollView.contentOffset = CGPointMake(0, - HeaderBarHeight);
+            }];
+            
+            
+            NSLog(@"cancel");
+        }
+        if (scrollView.contentOffset.y <= -DownToUpDataViewHeight - HeaderBarHeight && _isUpData)
+        {
+            //更新被取消
+            self.isupDataCancel = NO;
+            
+        }
+    }
+    else
+    {
+        //没在更新
+        NSLog(@"not");
+        scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        
+    }
+    
 }
+
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    //判断是否下拉刷新
+    if (scrollView.contentOffset.y <= -DownToUpDataViewHeight - HeaderBarHeight && !self.isUpData)
+    {
+        self.isUpData = YES;
+        //开始刷新动画
+        [self.downToUpDataView startAnimate];
+        scrollView.contentInset = UIEdgeInsetsMake(DownToUpDataViewHeight, 0, 0, 0);
+        
+        //模拟网络请求的延迟
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                
+                if (!self.isupDataCancel)
+                {
+                    
+                    [scrollView.panGestureRecognizer setTranslation:CGPointZero inView:scrollView.panGestureRecognizer.view];
+                    //在每次更新完成之后结束上一次的手势
+                    scrollView.panGestureRecognizer.state = UIGestureRecognizerStateEnded;
+//                    self.headView.ACy = 0;
+                    scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+                    scrollView.contentOffset = CGPointMake(0, - HeaderBarHeight);
+                    
+                    self.downToUpDataView.ACy = HeaderBarHeight;
+                    
+                    
+                    
+                }
+                //结束动画
+                [self.downToUpDataView cancelAnimate];
+                self.isUpData = NO;
+            }];
+            
+        });
+    }
+}
+
 
 /**
  * 点击cell的时候跳转到其他控制器

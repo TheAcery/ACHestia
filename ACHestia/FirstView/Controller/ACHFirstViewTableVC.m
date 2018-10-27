@@ -66,18 +66,24 @@
 /**下拉刷新视图*/
 @property (nonatomic, weak) ACHDownToUpDataView *downToUpDataView;
 
+
+/**是否取消更新*/
+@property (assign, nonatomic) BOOL isupDataCancel;
+
+/**是否正在更新*/
+@property (assign, nonatomic) BOOL isUpData;
+
 @end
 
 @implementation ACHFirstViewTableVC
 
 
-NSString  *Identifier  = @"cell";
 
-/**是否取消更新*/
-bool isupDataCancel = NO;
 
-/**是否正在更新*/
-bool isUpData = NO;
+{
+    NSString  *Identifier;
+    
+}
 
 
 
@@ -99,6 +105,8 @@ bool isUpData = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self setUp];
+    
     [self setUpSubViews];
     self.view.backgroundColor = UIColor.whiteColor;
 
@@ -119,15 +127,22 @@ bool isUpData = NO;
 /****************************************************************************************************************/
 
 
+-(void)setUp
+{
+    Identifier  = @"cell";
+    self.isupDataCancel = NO;
+    self.isUpData = NO;
+}
+
 -(void)cancelRequestAndAnimate
 {
     //停止请求
     //停止动画
-    isupDataCancel = YES;
+    self.isupDataCancel = YES;
     //结束动画
     [self.downToUpDataView cancelAnimate];
     //不再不在更新
-    isUpData = NO;
+    self.isUpData = NO;
     
     //恢复视图
     self.headView.ACy = 0;
@@ -204,19 +219,19 @@ bool isUpData = NO;
             self.downToUpDataView.ACy = - scrollView.contentOffset.y - DownToUpDataViewHeight;
         }
         
-        if (scrollView.contentOffset.y > -DownToUpDataViewHeight && isUpData)//当正在更新，一上拉就取消更新
+        if (scrollView.contentOffset.y > -DownToUpDataViewHeight && self.isUpData)//当正在更新，一上拉就取消更新
         {
             //更新被取消
-            isupDataCancel = YES;
+            self.isupDataCancel = YES;
             //结束动画
             [self.downToUpDataView cancelAnimate];
             //不再不在更新
-            isUpData = NO;
+            self.isUpData = NO;
         }
-        if (scrollView.contentOffset.y <= -DownToUpDataViewHeight && isUpData)
+        if (scrollView.contentOffset.y <= -DownToUpDataViewHeight && self.isUpData)
         {
             //更新被取消
-            isupDataCancel = NO;
+            self.isupDataCancel = NO;
             
         }
     }
@@ -236,9 +251,9 @@ bool isUpData = NO;
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     //判断是否下拉刷新
-    if (scrollView.contentOffset.y <= -DownToUpDataViewHeight)
+    if (scrollView.contentOffset.y <= -DownToUpDataViewHeight && !self.isUpData)
     {
-        isUpData = YES;
+        self.isUpData = YES;
         //开始刷新动画
         [self.downToUpDataView startAnimate];
         scrollView.contentInset = UIEdgeInsetsMake(DownToUpDataViewHeight, 0, 0, 0);
@@ -248,7 +263,7 @@ bool isUpData = NO;
             
             [UIView animateWithDuration:0.5 animations:^{
                 
-                if (!isupDataCancel)
+                if (!self.isupDataCancel)
                 {
                     
                     [scrollView.panGestureRecognizer setTranslation:CGPointZero inView:scrollView.panGestureRecognizer.view];
@@ -263,7 +278,7 @@ bool isUpData = NO;
                 }
                 //结束动画
                 [self.downToUpDataView cancelAnimate];
-                isUpData = NO;
+                self.isUpData = NO;
             }];
             
         });
