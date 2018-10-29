@@ -18,7 +18,7 @@
  * 在正常更新结束后我们吧内边距的top设置为0、停止请求、停止动画、让headView回来最开始的位置，同样的我们在取消的时候也希望这样
  * 同时在控制器跳转的时候也应该结束刷新这一些列的事件，他们应该在一个方法中，尝试将这些逻辑封装进downToUpDataView，怎么驱动？我们需要获取到tbaleView的滚动数据，然后修改tableView的一些数据。虽然downToUpDataView提供了一些方法，但是控制器仍然很臃肿，因为它需要做很多事情，他有很多逻辑，有什么办法能让这些逻辑单独在一个模块？试图把这些逻辑抽成一些方法，但这样并不能从根本上解决问题。
  * 似乎逻辑部分就应该在控制器中描述？可以尝试不让控制器做作为视图的代理，但这样控制器的意义又在哪里？把逻辑部分作为model？将封装上逻辑放入model部分，控制器将事件发送到model，逻辑判断后在通过代理回调，来控制view。
- * 这样能解决控制器代码臃肿的问题却降低了MVC的灵活度，C并不能直接和V沟通，因为C现在不知悉V的状态，同时事件传递的代码也增加了，没有更好的想法了吗？还是要求太多？
+ * 这样能解决控制器代码臃肿的问题却降低了MVC的灵活度，C并不能直接和V沟通，因为C现在不知悉V的状态，同时事件传递的代码也增加了，没有更好的想法了吗？还是要求太多？寻找一种减轻C负担同时不架空C的代码组织结构！
  */
 
 #import "ACHFirstViewTableVC.h"
@@ -57,8 +57,10 @@
 
 @property (nonatomic, weak) UITableView *tableView;
 
-/**一直在屏幕顶部的view*/
+/**一直在屏幕顶部的headView的父视图*/
 @property (nonatomic, weak) UIView *headView;
+
+@property (nonatomic, weak) ACHFirstHeadView *firstHeadView;
 
 /**在tableview前面的view*/
 @property (nonatomic, weak) ACHFastView *fastView;
@@ -105,10 +107,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self setUp];
+    self.view.backgroundColor = UIColor.whiteColor;
     
     [self setUpSubViews];
-    self.view.backgroundColor = UIColor.whiteColor;
+    
+    [self setUp];
 
 }
 
@@ -127,12 +130,7 @@
 /****************************************************************************************************************/
 
 
--(void)setUp
-{
-    Identifier  = @"cell";
-    self.isupDataCancel = NO;
-    self.isUpData = NO;
-}
+
 
 -(void)cancelRequestAndAnimate
 {
@@ -205,8 +203,30 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //随着tableView的滚动设置headerView的alpah
+    //随着tableView的滚动设置headerView的alpah,并且只设置一次contentOffset.y = [0 - 75]
+    
+   
     CGFloat alpha = 1.0 * (scrollView.contentOffset.y/ 75);
+    
+    if (alpha >= 1)
+    {
+        alpha = 1;
+    }
+    
+    if (alpha <= 0)
+    {
+        alpha = 0;
+    }
+    
+    UIColor *Bkcolor = [UIColor colorWithWhite:1.0 alpha:alpha];
+    UIColor *textColor = [UIColor colorWithWhite:1 - alpha alpha:1.0];
+    
+    NSLog(@"%f",scrollView.contentOffset.y);
+    self.headView.backgroundColor = Bkcolor;
+    [self.firstHeadView.cityButton setTitleColor:textColor forState:UIControlStateNormal];
+    //设置 sectionHeadView 的阴影
+    
+    
     
     //刷新判断
     if (scrollView.contentOffset.y <= 0)//当y偏移量小于0是，可能在刷新
@@ -242,10 +262,6 @@
         scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         
     }
-    
-    
-    self.headView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:alpha];
-    //设置 sectionHeadView 的阴影
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -288,6 +304,20 @@
 #pragma mark - setUp
 /****************************************************************************************************************/
 
+/**
+ * 初始化当前类的视图，和类属性
+ */
+
+-(void)setUp
+{
+    Identifier  = @"cell";
+    self.isupDataCancel = NO;
+    self.isUpData = NO;
+}
+
+/**
+ * 初始化所有的子视图
+ */
 
 -(void)setUpSubViews
 {
@@ -321,11 +351,17 @@
     ({
         /**这是一个投机取巧的做法，让headView包裹着真正的HeaderInSection ，这个view会挡住全部餐厅，而这部分正好是导航栏的高度*/
         
-        UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, HeaderBarHeight)];
+        //创建ACHFirstHeadView对象
         ACHFirstHeadView *firstHeadView = [ACHFirstHeadView firstHeadView];
         firstHeadView.frame = CGRectMake(0, HeaderBarHeight - firstHeadView.ACheight, SCRENNBOUNDS.size.width, firstHeadView.ACheight);
+        [firstHeadView.cityButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:1.0] forState:UIControlStateNormal];
+        
+        //创建ACHFirstHeadView对象的占位视图
+        UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCRENNBOUNDS.size.width, HeaderBarHeight)];
         [headView addSubview:firstHeadView];
+        
         self.headView = headView;
+        self.firstHeadView = firstHeadView;
         headView;
     });
     

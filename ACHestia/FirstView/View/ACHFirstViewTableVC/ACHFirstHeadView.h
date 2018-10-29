@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ACHButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ACHFirstHeadView : UIView
+
+
+@property (weak, nonatomic) IBOutlet ACHButton *cityButton;
+@property (weak, nonatomic) IBOutlet ACHButton *QRCodeButton;
 
 +(instancetype)firstHeadView;
 

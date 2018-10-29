@@ -56,6 +56,10 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="QRCodeButton" destination="gb1-cd-2T2" id="S08-uK-1sp"/>
+                <outlet property="cityButton" destination="A6C-Bi-rDj" id="2ym-5T-7a9"/>
+            </connections>
             <point key="canvasLocation" x="-4" y="6"/>
         </view>
     </objects>

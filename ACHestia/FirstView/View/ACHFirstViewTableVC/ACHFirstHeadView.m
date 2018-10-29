@@ -8,6 +8,11 @@
 
 #import "ACHFirstHeadView.h"
 
+
+@interface ACHFirstHeadView ()
+
+@end
+
 @implementation ACHFirstHeadView
 
 +(instancetype)firstHeadView
