@@ -221,10 +221,9 @@
     UIColor *Bkcolor = [UIColor colorWithWhite:1.0 alpha:alpha];
     UIColor *textColor = [UIColor colorWithWhite:1 - alpha alpha:1.0];
     
-    NSLog(@"%f",scrollView.contentOffset.y);
     self.headView.backgroundColor = Bkcolor;
     [self.firstHeadView.cityButton setTitleColor:textColor forState:UIControlStateNormal];
-    //设置 sectionHeadView 的阴影
+    //设置 sectionHeadView 的阴影，关于QRcode的颜色可以使用mask来实现，因为原来的ipa中没有素材
     
     
     

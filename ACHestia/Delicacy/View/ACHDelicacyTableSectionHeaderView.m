@@ -91,6 +91,7 @@
     subView.backgroundColor = TintColor;
     [self.indexSuperView addSubview:subView];
     
+    self.lastButton = self.oneButton;
     //选中第一个按钮
     self.oneButton.selected = YES;
 }

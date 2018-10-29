@@ -454,6 +454,7 @@
 
 /**
  * 当SectionHeaderView上的button被点击时调用，在这个方法中让tableView滚动到指定的位置
+ * 第一次点击的是realSectionHeaderView，没有赋值第一次的lastButton
  */
 
 - (void)didDelicacyTableSectionHeaderViewButtonClip:(ACHButton *)btn WithIndex:(NSInteger)index
